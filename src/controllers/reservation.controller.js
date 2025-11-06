@@ -1,7 +1,7 @@
 import { ErrorHandler } from "../error/error.js";
 import Reservation from "../models/reservation.models.js";
 
-export const sendReservation = async (req, res, next)  => {
+export const sendReservation = async (req, res, next) => {
     const { name, email, phone, time, date } = req.body;
 
     if (!name || !email || !phone || !time || !date) {
@@ -19,15 +19,15 @@ export const sendReservation = async (req, res, next)  => {
 
         res.status(200).json({
             success: true,
-            message : "Reservation created successfully",
+            message: "Reservation created successfully",
             reservation
         });
 
     } catch (error) {
-        if(error.name === 'ValidationError') {
+        if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message); // returns array of error messages came from mongoose validation
             return next(new ErrorHandler(messages.join(', '), 400));
         }
-        next(new ErrorHandler("Failed to create reservation", 500));
+        return next(new ErrorHandler("Failed to create reservation", 500));
     }
 }

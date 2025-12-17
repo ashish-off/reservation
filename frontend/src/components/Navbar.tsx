@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import type { NavbarLinkType } from "../types";
-import { Link } from "react-router-dom";
+import { Link } from "react-scroll";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const Navbar = () => {
@@ -32,27 +32,41 @@ const Navbar = () => {
       link: "reservation",
     },
   ];
-  console.log(show);
 
   return (
-    <nav className="py-7 md:flex md:items-center md:justify-between md:max-w-6xl md:mx-auto ">
-      <div className="flex justify-between items-center px-6">
+    <nav className="w-full py-7 md:flex md:items-center md:justify-between max-w-6xl md:mx-auto ">
+      <div className="flex flex-row justify-between items-center px-6">
         <span className="text-2xl cursor-pointer font-sans font-bold">
           LOGO
         </span>
-        <span onClick={() => setShow(!show)} className="text-3xl cursor-pointer block md:hidden"><GiHamburgerMenu/></span>
+        <span
+          onClick={() => setShow(!show)}
+          className="text-3xl cursor-pointer block md:hidden"
+        >
+          <GiHamburgerMenu />
+        </span>
       </div>
-      <ul className={`z-[-1] md:z-auto md:flex md:items-center md:static absolute left-0 w-full md:w-auto py-8 md:py-0 pl-7 md:pl-0  md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-300  ${show ? "top-[80px] opacity-100" : "top-[-400px] opacity-0"}`}>
+      <ul
+        className={` z-20 md:z-auto md:flex md:items-center md:static absolute left-0 w-full md:w-auto py-8 md:py-0 pl-7 md:pl-0  md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-300  ${
+          show ? "top-[75px] opacity-100" : "top-[-400px] opacity-0"
+        }`}
+      >
         {navbarLinks.map((element) => (
-          <li className="text-xl mx-4 my-2 md:my-0 hover:text-gray-500 duration-200 ">
-            <Link to={element.title} key={element.id}>
+          <li className="text-xl mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 ">
+            <Link
+              to={element.link}
+              key={element.id}
+              spy={true}
+              smooth={true}
+              duration={500}
+            >
               {element.title}
             </Link>
           </li>
         ))}
-      <button className="font-bold border p-2 rounded-2xl hover:bg-gray-100 duration-200">
-        Our Menu
-      </button>
+        <button className="mt-3 mx-4 font-bold border p-2 rounded-2xl hover:bg-gray-100 duration-200">
+          Our Menu
+        </button>
       </ul>
     </nav>
   );

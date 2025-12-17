@@ -47,8 +47,8 @@ const Navbar = () => {
         </span>
       </div>
       <ul
-        className={` z-20 md:z-auto md:flex md:items-center md:static absolute left-0 w-full md:w-auto py-8 md:py-0 pl-7 md:pl-0  md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-300  ${
-          show ? "top-[75px] opacity-100" : "top-[-400px] opacity-0"
+        className={` z-20 md:z-auto md:flex md:items-center md:static absolute left-0 w-full md:w-auto py-8 md:py-0 pl-7 md:pl-0  md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-300 bg-[linear-gradient(15deg,#e6c3ceEB,#e6bac8)] md:bg-none ${
+          show ? "top-[75px] opacity-100 " : "top-[-400px] opacity-0"
         }`}
       >
         {navbarLinks.map((element) => (

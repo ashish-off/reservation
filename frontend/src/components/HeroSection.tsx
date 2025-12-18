@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 const HeroSection = () => {
   return (
     <section
-      className="min-h-screen flex flex-col bg-[url('/background.svg')] bg-cover  bg-local bg-right "
+      className="min-h-screen md:min-h-fit lg:min-h-screen flex flex-col bg-[url('/background.svg')] bg-cover  bg-local bg-right "
       id="heroSection"
     >
       <Navbar />

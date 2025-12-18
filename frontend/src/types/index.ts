@@ -18,3 +18,10 @@ export interface QualitiyType {
   title: string;
   description: string;
 }
+
+export interface DishType {
+  id: number;
+  image: string;
+  title: string;
+  category: string;
+}

@@ -26,7 +26,7 @@ const Qualities = () => {
   ];
 
   return (
-    <section className="w-full max-w-6xl md:mx-auto px-4 py-8 flex flex-col gap-4 sm:gap-8 items-center justify-center sm:flex-row ">
+    <section className="w-full max-w-6xl md:mx-auto px-4 py-8 flex flex-col gap-4 sm:gap-8 items-center justify-center sm:flex-row " id="qualities">
       {Qualities.map((quality) => (
         <div key={quality.id} className="w-[90%] sm:w-xs flex flex-col justify-center items-center">
           <img

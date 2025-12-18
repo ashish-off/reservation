@@ -1,8 +1,13 @@
-import Button from "./ui/Button";
+import Button from "./customUI/Button";
+import { FaArrowRight } from "react-icons/fa6";
+
 
 const AboutUs = () => {
   return (
-    <section className="w-full max-w-6xl md:mx-auto px-4 md:py-8 md:px-4  lg:px-2 flex flex-col justify-center items-center md:flex-row" id="about">
+    <section
+      className="w-full max-w-6xl md:mx-auto px-4 md:py-8 md:px-4  lg:px-2 flex flex-col justify-center items-center md:flex-row"
+      id="about"
+    >
       <div className="w-[360px] block md:hidden pb-12 pt-2 ">
         <img src="/about.png" alt="food image" />
       </div>
@@ -25,7 +30,9 @@ const AboutUs = () => {
         </article>
 
         <div className="w-fit mx-auto sm:mx-0">
-          <Button className="text-sm md:text-lg py-2 md:py-3 ">Explore Menu</Button>
+          <Button className="text-sm md:text-lg py-2 md:py-3 border border-gray-200 flex items-center gap-2">
+            Make A Reservation <FaArrowRight />
+          </Button>
         </div>
       </div>
 

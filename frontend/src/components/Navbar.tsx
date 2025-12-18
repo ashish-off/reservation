@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { NavbarLinkType } from "../types";
 import { Link } from "react-scroll";
 import { GiHamburgerMenu } from "react-icons/gi";
-import Button from "./ui/Button";
+import Button from "./customUI/Button";
 
 const Navbar = () => {
   const [show, setShow] = useState<boolean>(false);

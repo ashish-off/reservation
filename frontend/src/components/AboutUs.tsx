@@ -16,7 +16,7 @@ const AboutUs = () => {
           </h2>
         </div>
 
-        <article className="text-sm md:text-xl">
+        <article className="text-sm md:text-xl text-gray-800">
           Serving Pokhara for over 12 years, we’ve grown from a small local spot
           into a favorite place for food lovers who value taste and comfort.
           Whether it’s an intimate dinner, a family gathering, or a special
@@ -24,7 +24,7 @@ const AboutUs = () => {
           while we focus on delivering a refined dining experience.
         </article>
 
-        <div>
+        <div className="w-fit mx-auto sm:mx-0">
           <Button className="text-sm md:text-lg py-2 md:py-3 ">Explore Menu</Button>
         </div>
       </div>

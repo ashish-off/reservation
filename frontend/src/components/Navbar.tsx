@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { NavbarLinkType } from "../types";
 import { Link } from "react-scroll";
 import { GiHamburgerMenu } from "react-icons/gi";
+import Button from "./ui/Button";
 
 const Navbar = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -64,9 +65,7 @@ const Navbar = () => {
             </Link>
           </li>
         ))}
-        <button className="mt-3 mx-4 font-bold border p-2 rounded-2xl hover:bg-gray-100 duration-200">
-          Our Menu
-        </button>
+        <Button className="mt-3 mx-4">Our Menu</Button>
       </ul>
     </nav>
   );

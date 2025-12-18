@@ -3,12 +3,12 @@ import Navbar from "./Navbar";
 const HeroSection = () => {
   return (
     <section
-      className="min-h-screen flex flex-col bg-[url('/background.svg')] bg-cover  md:bg-fixed bg-scroll bg-right "
+      className="min-h-screen flex flex-col bg-[url('/background.svg')] bg-cover  bg-local bg-right "
       id="heroSection"
     >
       <Navbar />
 
-      <div className="px-2 md:px-4 lg:px-2  flex flex-col md:flex-row items-center justify-center w-full max-w-6xl md:mx-auto ">
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl md:mx-auto px-2 md:px-4 lg:px-2">
 
         <div className=" flex flex-col items-center md:items-start justify-center w-full  lg:min-w-[45%] lg:max-w-[55%] ">
           <div>

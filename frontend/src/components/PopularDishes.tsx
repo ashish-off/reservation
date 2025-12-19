@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Button from "./customUI/Button";
-import {MdArrowForwardIos, MdChevronRight, MdKeyboardArrowRight} from "react-icons/md"
+import { MdKeyboardArrowRight} from "react-icons/md"
 
 const PopularDishes = () => {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));

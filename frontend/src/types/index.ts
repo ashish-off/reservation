@@ -25,3 +25,10 @@ export interface DishType {
   title: string;
   category: string;
 }
+
+export interface TeamType {
+  id: number;
+  image: string;
+  name: string;
+  designation: string;
+}

@@ -14,7 +14,7 @@ const AboutUs = () => {
       <div className="flex flex-col gap-4 lg:pr-21 md:pr-4 ">
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-            About US
+            About Us
           </h1>
           <h2 className="text-xs md:text-[16px] font-semibold">
             “Life’s too short for bad food, so we don’t serve it.”

@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa6";
 const AboutUs = () => {
   return (
     <section
-      className="w-full max-w-6xl md:mx-auto px-4 md:py-8 md:px-4  lg:px-2 flex flex-col justify-center items-center md:flex-row"
+      className="w-full max-w-6xl md:mx-auto px-4 md:py-8 flex flex-col justify-center items-center md:flex-row"
       id="about"
     >
       <div className="w-[360px] block md:hidden pb-12 pt-2 ">

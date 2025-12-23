@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Quote, Utensils,ChevronDownIcon } from "lucide-react";
+import { Quote, Utensils, ChevronDownIcon } from "lucide-react";
 
 import {
   Card,
@@ -15,25 +15,87 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import * as z from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const firstFormSchema = z.object({
-  date: z.date().refine(Boolean, { message: "Please select a date" }),
+  date: z
+    .date()
+    .nullable()
+    .refine(Boolean, { message: "Please select a date" }),
   time: z.string().min(1, "Please select a time"),
-  guest: z
+  guests: z
     .number()
     .min(1, "At least 1 guest is required")
-    .max(20, "Maximum 20 guests allowed"),
+    .max(15, "Maximum 15 guests allowed"),
 });
+
+type FirstFormSchemaType = z.infer<typeof firstFormSchema>;
 
 const Reservation = () => {
   const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState<Date | undefined>(undefined);
 
   // Steps: 1=Search, 2=Select Table, 3=Details, 4=Success
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step] = useState<1 | 2 | 3 | 4>(1);
+
+  const timeSlots = [
+    "10:00 AM",
+    "10:30 AM",
+    "11:00 AM",
+    "11:30 AM",
+    "12:00 PM",
+    "12:30 PM",
+    "01:00 PM",
+    "01:30 PM",
+    "02:00 PM",
+    "02:30 PM",
+    "03:00 PM",
+    "03:30 PM",
+    "04:00 PM",
+    "04:30 PM",
+    "05:00 PM",
+    "05:30 PM",
+    "06:00 PM",
+    "06:30 PM",
+    "07:00 PM",
+    "07:30 PM",
+    "08:00 PM",
+    "08:30 PM",
+    "09:00 PM",
+    "09:30 PM",
+    "10:00 PM",
+    "10:30 PM",
+    "11:00 PM",
+  ];
+
+  const firstForm = useForm<FirstFormSchemaType>({
+    resolver: zodResolver(firstFormSchema),
+    defaultValues: {
+      date: null,
+      time: "",
+      guests: 2,
+    },
+  });
+
+  const onSubmit = (data: FirstFormSchemaType) => {
+    console.log("form Submitted");
+    console.log(data);
+  };
 
   return (
     <div className=" min-h-screen bg-stone-500 flex flex-col lg:flex-row font-sans text-stone-800 ">
@@ -116,39 +178,130 @@ const Reservation = () => {
               </CardHeader>
 
               <CardContent>
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="date" className="px-1">
-                    Date
-                  </Label>
-                  <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        id="date"
-                        className="w-48 justify-between font-normal"
-                      >
-                        {date ? date.toLocaleDateString() : "Select date"}
-                        <ChevronDownIcon />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-auto overflow-hidden p-0"
-                      align="start"
-                    >
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        captionLayout="dropdown"
-                        onSelect={(date) => {
-                          setDate(date);
-                          setOpen(false);
-                        }}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                <form
+                  id="first-form"
+                  onSubmit={firstForm.handleSubmit(onSubmit)}
+                >
+                  <FieldGroup>
+                    <Controller
+                      name="date"
+                      control={firstForm.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <div className="flex flex-col gap-3">
+                            <FieldLabel htmlFor="date" className="px-1">
+                              DATE
+                            </FieldLabel>
+                            <Popover open={open} onOpenChange={setOpen}>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  id="date"
+                                  aria-invalid={fieldState.invalid}
+                                  className="w-48 justify-between font-normal"
+                                >
+                                  {field.value
+                                    ? field.value.toLocaleDateString()
+                                    : "Select Date"}
+                                  <ChevronDownIcon />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                className="w-auto overflow-hidden p-0"
+                                align="start"
+                              >
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value ?? undefined}
+                                  captionLayout="dropdown"
+                                  onSelect={(selectedDate) => {
+                                    field.onChange(selectedDate);
+                                    setOpen(false);
+                                  }}
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+
+                          {fieldState.invalid && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+
+                    <Controller
+                      name="time"
+                      control={firstForm.control}
+                      render={({ field, fieldState }) => (
+                        <div className="w-full max-w-md">
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="time">TIME</FieldLabel>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <SelectTrigger
+                                id="time"
+                                aria-invalid={fieldState.invalid}
+                              >
+                                <SelectValue>Select Time</SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                {timeSlots.map((time) => (
+                                  <SelectItem key={time} value={time}>
+                                    {time}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        </div>
+                      )}
+                    />
+
+                    <Controller
+                      name="guests"
+                      control={firstForm.control}
+                      render={({ field, fieldState }) => (
+                        <div className="w-full max-w-md">
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="guests">GUESTS</FieldLabel>
+                            <Select
+                              value={field.value?.toString()}
+                              onValueChange={(value) =>
+                                field.onChange(Number(value))
+                              }
+                            >
+                              <SelectTrigger
+                                id="guests"
+                                aria-invalid={fieldState.invalid}
+                              >
+                                <SelectValue>2 Guests (Default)</SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                {[2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15].map((guest) => (
+                                  <SelectItem key={guest} value={String(guest)}>{guest} Guests </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        </div>
+                      )}
+                    />
+                  </FieldGroup>
+                </form>
               </CardContent>
               <CardFooter>
+                <Button type="submit" form="first-form">
+                  Submit
+                </Button>
                 <p>Card Footer</p>
               </CardFooter>
             </Card>

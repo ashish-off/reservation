@@ -32,3 +32,12 @@ export interface TeamType {
   name: string;
   designation: string;
 }
+
+export interface TableOption {
+  id: string;
+  name: string;
+  description: string;
+  features: string[];
+  image: string;
+  cost: number;
+}

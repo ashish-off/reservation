@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { Quote, Utensils, ChevronDownIcon } from "lucide-react";
+import {
+  Quote,
+  Utensils,
+  ChevronDownIcon,
+  ArrowLeftIcon,
+  Eye,
+} from "lucide-react";
 
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -32,6 +39,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item";
+import type { TableOption } from "@/types";
+import { Badge } from "@/components/ui/badge";
 
 const firstFormSchema = z.object({
   date: z
@@ -50,8 +67,8 @@ type FirstFormSchemaType = z.infer<typeof firstFormSchema>;
 const Reservation = () => {
   const [open, setOpen] = React.useState(false);
 
-  // Steps: 1=Search, 2=Select Table, 3=Details, 4=Success
-  const [step] = useState<1 | 2 | 3 | 4>(1);
+  // Steps: 1=Date & Time, 2=Select seating, 3=Contact, 4=Success
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(2);
 
   const timeSlots = [
     "10:00 AM",
@@ -83,6 +100,37 @@ const Reservation = () => {
     "11:00 PM",
   ];
 
+  const tableOptions: TableOption[] = [
+    {
+      id: "premium-stage",
+      name: "Premium Stage",
+      description: "Center of the action with live piano view.",
+      features: ["High Visibility", "Near Stage"],
+      image:
+        "https://imgs.search.brave.com/OtlustJ2khsHnBDP0EEfmQcdiHRfDlcBDDAXw8xUAAM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9oaWdoLWJsdXJy/ZWQtaW50ZXJpb3It/bHV4dXJ5Xzg3NzIw/LTE1NTM5Ny5qcGc_/c2VtdD1haXNfaHli/cmlkJnc9NzQwJnE9/ODA",
+      cost: 25,
+    },
+    {
+      id: "window-garden",
+      name: "Window Garden",
+      description: "Quiet corner with a view of the patio.",
+      features: ["Natural Light", "Quiet Area"],
+      image:
+        "https://imgs.search.brave.com/PDGJTLk94xwe2dw1Ksq1m4Mg4MhomDMTKgxLk1HpBJw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE2/NDM4NTY1NTcxNDMt/MDkxODllNTIzZmQ2/P2ZtPWpwZyZxPTYw/Jnc9MzAwMCZpeGxp/Yj1yYi00LjEuMCZp/eGlkPU0zd3hNakEz/ZkRCOE1IeHpaV0Z5/WTJoOE5IeDhiM1Yw/Wkc5dmNpVXlNSEps/YzNSaGRYSmhiblI4/Wlc1OE1IeDhNSHg4/ZkRBPQ",
+      cost: 0,
+    },
+    {
+      id: "private-booth",
+      name: "Private Booth",
+      description: "Cozy semi-private seating for intimate dining.",
+      features: ["Plush Seating", "Semi-Private"],
+      image:
+        "https://imgs.search.brave.com/TUZA4G9pwnzllTMObP2tKMG0Lj0H6NPmaStW9eb0VjM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzg0L2Jk/L2VhLzg0YmRlYWMy/YzEwZjdlOTI3MWM3/NWZjNzFlY2FlOTYy/LmpwZw",
+      cost: 15,
+    },
+
+  ];
+
   const firstForm = useForm<FirstFormSchemaType>({
     resolver: zodResolver(firstFormSchema),
     defaultValues: {
@@ -95,6 +143,7 @@ const Reservation = () => {
   const onSubmit = (data: FirstFormSchemaType) => {
     console.log("form Submitted");
     console.log(data);
+    setStep(2);
   };
 
   return (
@@ -139,7 +188,7 @@ const Reservation = () => {
 
       {/* RIGHT PANEL */}
       <div className="flex-1 bg-white relative flex flex-col justify-center">
-        <div className="flex-1 mx-auto px-6 py-12 lg:px-8 w-full max-w-2xl h-full flex flex-col justify-center ">
+        <div className="flex-1 mx-auto px-6 py-12 lg:px-8 w-full max-w-2xl h-full flex flex-col  max-h-[92vh] box-border border-2 border-red-600">
           {/* progress Bar */}
           {step < 4 && (
             <div className="mb-12 ">
@@ -245,7 +294,7 @@ const Reservation = () => {
                                 id="time"
                                 aria-invalid={fieldState.invalid}
                               >
-                                <SelectValue>Select Time</SelectValue>
+                                <SelectValue placeholder="Select Time" />
                               </SelectTrigger>
                               <SelectContent>
                                 {timeSlots.map((time) => (
@@ -280,11 +329,19 @@ const Reservation = () => {
                                 id="guests"
                                 aria-invalid={fieldState.invalid}
                               >
-                                <SelectValue>2 Guests (Default)</SelectValue>
+                                <SelectValue>
+                                  {field.value} Guests{" "}
+                                  {field.value == 2 ? " (Default)" : ""}
+                                </SelectValue>
                               </SelectTrigger>
                               <SelectContent>
-                                {[2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15].map((guest) => (
-                                  <SelectItem key={guest} value={String(guest)}>{guest} Guests </SelectItem>
+                                {[
+                                  2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                                  15,
+                                ].map((guest) => (
+                                  <SelectItem key={guest} value={String(guest)}>
+                                    {guest}
+                                  </SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
@@ -300,12 +357,103 @@ const Reservation = () => {
               </CardContent>
               <CardFooter>
                 <Button type="submit" form="first-form">
-                  Submit
+                  Check Availability
                 </Button>
-                <p>Card Footer</p>
               </CardFooter>
             </Card>
           )}
+
+          {/* Step 2: Select Table */}
+          {step === 2 && (
+            <Card>
+              <CardHeader>
+                <CardAction>
+                  <Button
+                    onClick={() => setStep(1)}
+                    variant="outline"
+                    size="icon"
+                    aria-label="Go Back"
+                    className="rounded-full"
+                  >
+                    <ArrowLeftIcon />
+                  </Button>
+                </CardAction>
+                <CardTitle>3 Tables Found</CardTitle>
+                <CardDescription>
+                  Select a seating area for your reservation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex w-full flex-col gap-6 max-h-[400px] overflow-y-scroll ">
+                  <ItemGroup className="gap-4">
+                    {tableOptions.map((table) => (
+                      <Item
+                        key={table.id}
+                        variant="outline"
+                        asChild
+                        role="listitem"
+                      >
+                        <div onClick={() => setStep(3)}>
+                          <ItemMedia
+                            variant="image"
+                            className="hover:scale-105 duration-500 size-16 relative"
+                          >
+                            <Eye className="absolute bottom-1 right-1 size-4 text-white bg-black/50 rounded-full p-1 pointer-events-none" />
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <img
+                                  src={table.image}
+                                  alt={table.name}
+                                  className="object-cover cursor-pointer"
+                                  onClick={(e) => e.stopPropagation()}
+                                />
+                              </PopoverTrigger>
+                              <PopoverContent className="w-80 md:w-120 max-h-80 overflow-hidden">
+                                <img
+                                  src={table.image}
+                                  alt={table.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </ItemMedia>
+                          <ItemContent>
+                            <ItemTitle className="line-clamp-1">
+                              {table.name}
+                            </ItemTitle>
+                            <ItemDescription>
+                              {table.description}
+                            </ItemDescription>
+                            <ItemDescription>
+                              {table.features.map((feature, i) => (
+                                <Badge key={i} variant="secondary">
+                                  {feature}
+                                </Badge>
+                              ))}
+                            </ItemDescription>
+                          </ItemContent>
+                          <ItemContent className="flex-none text-center">
+                            <ItemDescription
+                              className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                                table.cost > 0
+                                  ? "bg-amber-100 text-amber-700"
+                                  : "bg-stone-100 text-stone-600"
+                              }`}
+                            >
+                              {table.cost > 0 ? `$${table.cost}` : "Free"}
+                            </ItemDescription>
+                          </ItemContent>
+                        </div>
+                      </Item>
+                    ))}
+                  </ItemGroup>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Step 3: Contact Details */}
+          {step === 3 && <div>Contact details form will go here</div>}
         </div>
       </div>
     </div>

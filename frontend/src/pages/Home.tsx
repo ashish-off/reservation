@@ -3,6 +3,7 @@ import AboutUs from '../components/AboutUs'
 import Qualities from '../components/Qualities'
 import PopularDishes from '../components/PopularDishes'
 import Team from '@/components/Team'
+import Footer from '@/components/Footer'
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
     <Qualities/>
     <PopularDishes/>
     <Team />
+    <Footer/>
     </>
   )
 }

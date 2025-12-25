@@ -5,6 +5,8 @@ import {
   ChevronDownIcon,
   ArrowLeftIcon,
   Eye,
+  CreditCard,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -50,6 +52,7 @@ import {
 import type { TableOption } from "@/types";
 import { Badge } from "@/components/ui/badge";
 
+
 const firstFormSchema = z.object({
   date: z
     .date()
@@ -66,9 +69,14 @@ type FirstFormSchemaType = z.infer<typeof firstFormSchema>;
 
 const Reservation = () => {
   const [open, setOpen] = React.useState(false);
+  const [firstFormData, setFirstFormData] =
+    useState<FirstFormSchemaType | null>(null);
+  const [secondFormData, setSecondFormData] = useState<
+    (FirstFormSchemaType & { seating: TableOption }) | null
+  >(null);
 
   // Steps: 1=Date & Time, 2=Select seating, 3=Contact, 4=Success
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(2);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
   const timeSlots = [
     "10:00 AM",
@@ -128,33 +136,6 @@ const Reservation = () => {
         "https://imgs.search.brave.com/TUZA4G9pwnzllTMObP2tKMG0Lj0H6NPmaStW9eb0VjM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzg0L2Jk/L2VhLzg0YmRlYWMy/YzEwZjdlOTI3MWM3/NWZjNzFlY2FlOTYy/LmpwZw",
       cost: 15,
     },
-    {
-      id: "premium-stage",
-      name: "Premium Stage",
-      description: "Center of the action with live piano view.",
-      features: ["High Visibility", "Near Stage"],
-      image:
-        "https://imgs.search.brave.com/OtlustJ2khsHnBDP0EEfmQcdiHRfDlcBDDAXw8xUAAM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9oaWdoLWJsdXJy/ZWQtaW50ZXJpb3It/bHV4dXJ5Xzg3NzIw/LTE1NTM5Ny5qcGc_/c2VtdD1haXNfaHli/cmlkJnc9NzQwJnE9/ODA",
-      cost: 25,
-    },
-    {
-      id: "window-garden",
-      name: "Window Garden",
-      description: "Quiet corner with a view of the patio.",
-      features: ["Natural Light", "Quiet Area"],
-      image:
-        "https://imgs.search.brave.com/PDGJTLk94xwe2dw1Ksq1m4Mg4MhomDMTKgxLk1HpBJw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE2/NDM4NTY1NTcxNDMt/MDkxODllNTIzZmQ2/P2ZtPWpwZyZxPTYw/Jnc9MzAwMCZpeGxp/Yj1yYi00LjEuMCZp/eGlkPU0zd3hNakEz/ZkRCOE1IeHpaV0Z5/WTJoOE5IeDhiM1Yw/Wkc5dmNpVXlNSEps/YzNSaGRYSmhiblI4/Wlc1OE1IeDhNSHg4/ZkRBPQ",
-      cost: 0,
-    },
-    {
-      id: "private-booth",
-      name: "Private Booth",
-      description: "Cozy semi-private seating for intimate dining.",
-      features: ["Plush Seating", "Semi-Private"],
-      image:
-        "https://imgs.search.brave.com/TUZA4G9pwnzllTMObP2tKMG0Lj0H6NPmaStW9eb0VjM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzg0L2Jk/L2VhLzg0YmRlYWMy/YzEwZjdlOTI3MWM3/NWZjNzFlY2FlOTYy/LmpwZw",
-      cost: 15,
-    },
   ];
 
   const firstForm = useForm<FirstFormSchemaType>({
@@ -166,10 +147,15 @@ const Reservation = () => {
     },
   });
 
-  const onSubmit = (data: FirstFormSchemaType) => {
-    console.log("form Submitted");
-    console.log(data);
+  const onSubmitFirst = (data: FirstFormSchemaType) => {
+    setFirstFormData(data);
     setStep(2);
+  };
+
+  const onSelectSecond = (table: TableOption) => {
+    setSecondFormData({ ...firstFormData!, seating: table });
+    setStep(3);
+    console.log("form data: ", { ...firstFormData, seating: table });
   };
 
   return (
@@ -234,7 +220,7 @@ const Reservation = () => {
               </div>
               <div className="flex justify-between text-xs font-bold text-stone-400 uppercase tracking-widest px-1">
                 <span>Date & Time</span>
-                <span>Select Table</span>
+                <span>Seating Area</span>
                 <span>Details</span>
               </div>
             </div>
@@ -255,7 +241,7 @@ const Reservation = () => {
               <CardContent>
                 <form
                   id="first-form"
-                  onSubmit={firstForm.handleSubmit(onSubmit)}
+                  onSubmit={firstForm.handleSubmit(onSubmitFirst)}
                 >
                   <FieldGroup>
                     <Controller
@@ -410,7 +396,7 @@ const Reservation = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex w-full flex-col gap-6 max-h-[400px] overflow-y-scroll custom-scrollbar">
+                <div className="flex w-full flex-col gap-4 max-h-[400px] overflow-y-scroll custom-scrollbar">
                   <ItemGroup className="gap-4">
                     {tableOptions.map((table) => (
                       <Item
@@ -419,7 +405,7 @@ const Reservation = () => {
                         asChild
                         role="listitem"
                       >
-                        <div onClick={() => setStep(3)}>
+                        <div onClick={() => onSelectSecond(table)}>
                           <ItemMedia
                             variant="image"
                             className="hover:scale-105 duration-500 size-16 relative"
@@ -479,7 +465,100 @@ const Reservation = () => {
           )}
 
           {/* Step 3: Contact Details */}
-          {step === 3 && <div>Contact details form will go here</div>}
+          {step === 3 && secondFormData && (
+            <div className="flex flex-col gap-4">
+              <Item
+                key={secondFormData.seating.id}
+                variant="outline"
+                asChild
+                role="listitem"
+              >
+                <div>
+                  <ItemMedia variant="image" className=" size-16 ">
+                    <img
+                      src={secondFormData.seating.image}
+                      alt={secondFormData.seating.name}
+                    />
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle className="line-clamp-1">
+                      {secondFormData.seating.name}
+                    </ItemTitle>
+                    <ItemDescription>
+                      {secondFormData.seating.description}
+                    </ItemDescription>
+                    <ItemDescription>
+                      {secondFormData.seating.features.map((feature, i) => (
+                        <Badge key={i} variant="secondary">
+                          {feature}
+                        </Badge>
+                      ))}
+                    </ItemDescription>
+                  </ItemContent>
+                  <ItemContent className="flex-none text-center">
+                    <ItemDescription
+                      className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                        secondFormData.seating.cost > 0
+                          ? "bg-amber-100 text-amber-700"
+                          : "bg-stone-100 text-stone-600"
+                      }`}
+                    >
+                      {secondFormData.seating.cost > 0
+                        ? `$${secondFormData.seating.cost}`
+                        : "Free"}
+                    </ItemDescription>
+                  </ItemContent>
+                </div>
+              </Item>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Final Details</CardTitle>
+                  <CardDescription>
+                    Please provide your contact information to confirm.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>Card Content</p>
+                </CardContent>
+                <CardFooter className="flex flex-col gap-4">
+                  <div className="flex justify-between gap-2 w-full">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="rounded-lg w-[49%] py-6"
+                    >
+                      <CreditCard size={18} /> Pay Now
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="default"
+                      className="rounded-lg w-[49%] py-6"
+                    >
+                      <Wallet size={18} /> Pay At Table
+                    </Button>
+                  </div>
+                  <div className="flex justify-between gap-2 w-full">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="rounded-lg w-[18%] py-6"
+                      onClick={() => setStep(2)}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="default"
+                      className="rounded-lg w-[80%] py-6"
+                    >
+                      Confirm Reservation
+                    </Button>
+                  </div>
+                </CardFooter>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </div>

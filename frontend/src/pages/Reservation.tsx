@@ -51,7 +51,8 @@ import {
 } from "@/components/ui/item";
 import type { TableOption } from "@/types";
 import { Badge } from "@/components/ui/badge";
-
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const firstFormSchema = z.object({
   date: z
@@ -65,7 +66,23 @@ const firstFormSchema = z.object({
     .max(15, "Maximum 15 guests allowed"),
 });
 
+const thirdFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Full name must be at least 2 characters")
+    .regex(/^[a-zA-Z\s]+$/, "Name must contain only letters and spaces")
+    .refine((val) => val.trim().split(/\s+/).length >= 2, "Please enter at least first and last name"),
+  email: z.email("Please enter a valid email address"),
+  phone: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .regex(/^\d+$/, "Phone number must contain only digits"), 
+  specialRequest: z.string().optional(),
+  paymentMethod: z.enum(["now", "later"]),
+});
+
 type FirstFormSchemaType = z.infer<typeof firstFormSchema>;
+type ThirdFormSchemaType = z.infer<typeof thirdFormSchema>;
 
 const Reservation = () => {
   const [open, setOpen] = React.useState(false);
@@ -147,15 +164,41 @@ const Reservation = () => {
     },
   });
 
+  const thirdForm = useForm<ThirdFormSchemaType>({
+    resolver: zodResolver(thirdFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      specialRequest: "",
+      paymentMethod: "later",
+    },
+  });
+
+  // for payment method button and selection
+  const { setValue, watch } = thirdForm;
+  const selectedPayment = watch("paymentMethod");
+
   const onSubmitFirst = (data: FirstFormSchemaType) => {
     setFirstFormData(data);
     setStep(2);
   };
 
   const onSelectSecond = (table: TableOption) => {
-    setSecondFormData({ ...firstFormData!, seating: table });
-    setStep(3);
-    console.log("form data: ", { ...firstFormData, seating: table });
+    if (firstFormData) {
+      const data = { ...firstFormData, seating: table };
+      setSecondFormData(data);
+      setStep(3);
+      // console.log("second form data: ", data);
+    }
+  };
+
+  const onSubmitThird = (data: ThirdFormSchemaType) => {
+    if (secondFormData) {
+      const finalData = { ...secondFormData, ...data };
+      setStep(4);
+      console.log("Final Reservation Data: ", finalData);
+    }
   };
 
   return (
@@ -513,29 +556,123 @@ const Reservation = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Final Details</CardTitle>
+                  <CardTitle>Contact Details</CardTitle>
                   <CardDescription>
                     Please provide your contact information to confirm.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>Card Content</p>
+                  <form
+                    id="third-form"
+                    onSubmit={thirdForm.handleSubmit(onSubmitThird)}
+                  >
+                    <FieldGroup>
+                      <Controller
+                        name="name"
+                        control={thirdForm.control}
+                        render={({ field, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="name">Full Name</FieldLabel>
+                            <Input
+                              {...field}
+                              id="name"
+                              aria-invalid={fieldState.invalid}
+                              placeholder="e.g. John Doe"
+                              autoComplete="off"
+                            />
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <Controller
+                          name="email"
+                          control={thirdForm.control}
+                          render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                              <FieldLabel htmlFor="email">
+                                Email Address
+                              </FieldLabel>
+                              <Input
+                                {...field}
+                                id="email"
+                                aria-invalid={fieldState.invalid}
+                                placeholder="e.g. john@example.com"
+                                autoComplete="off"
+                              />
+                              {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
+                          )}
+                        />
+
+                        <Controller
+                          name="phone"
+                          control={thirdForm.control}
+                          render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                              <FieldLabel htmlFor="phone">
+                                Phone Number
+                              </FieldLabel>
+                              <Input
+                                {...field}
+                                id="phone"
+                                aria-invalid={fieldState.invalid}
+                                placeholder="e.g. (123) 456-7890"
+                                autoComplete="off"
+                              />
+                              {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                              )}
+                            </Field>
+                          )}
+                        />
+                      </div>
+
+                      <Controller
+                        name="specialRequest"
+                        control={thirdForm.control}
+                        render={({ field, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="specialRequest">
+                              Special Request
+                            </FieldLabel>
+                            <Textarea
+                              {...field}
+                              id="specialRequest"
+                              aria-invalid={fieldState.invalid}
+                              placeholder="e.g. Vegan meal, Allergies, Birthday, Anniversaries..."
+                            />
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                    </FieldGroup>
+                  </form>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
                   <div className="flex justify-between gap-2 w-full">
                     <Button
                       size="lg"
-                      variant="outline"
+                      variant={selectedPayment === "later" ? "default" : "outline"}
                       className="rounded-lg w-[49%] py-6"
+                      onClick={() => setValue("paymentMethod", "later")}
                     >
-                      <CreditCard size={18} /> Pay Now
+                      <Wallet size={18} /> Pay At Table
                     </Button>
                     <Button
                       size="lg"
-                      variant="default"
+                      variant={selectedPayment === "now" ? "default" : "outline"}
                       className="rounded-lg w-[49%] py-6"
+                      onClick={() => setValue("paymentMethod", "now")}
                     >
-                      <Wallet size={18} /> Pay At Table
+                      <CreditCard size={18} /> Pay Now
                     </Button>
                   </div>
                   <div className="flex justify-between gap-2 w-full">
@@ -551,6 +688,8 @@ const Reservation = () => {
                       size="lg"
                       variant="default"
                       className="rounded-lg w-[80%] py-6"
+                      type="submit"
+                      form="third-form" 
                     >
                       Confirm Reservation
                     </Button>

@@ -7,6 +7,9 @@ import {
   Eye,
   CreditCard,
   Wallet,
+  CheckCircle,
+  User,
+  Calendar as CalendarIcon,
 } from "lucide-react";
 
 import {
@@ -71,12 +74,15 @@ const thirdFormSchema = z.object({
     .string()
     .min(2, "Full name must be at least 2 characters")
     .regex(/^[a-zA-Z\s]+$/, "Name must contain only letters and spaces")
-    .refine((val) => val.trim().split(/\s+/).length >= 2, "Please enter at least first and last name"),
+    .refine(
+      (val) => val.trim().split(/\s+/).length >= 2,
+      "Please enter at least first and last name"
+    ),
   email: z.email("Please enter a valid email address"),
   phone: z
     .string()
     .min(10, "Phone number must be at least 10 digits")
-    .regex(/^\d+$/, "Phone number must contain only digits"), 
+    .regex(/^\d+$/, "Phone number must contain only digits"),
   specialRequest: z.string().optional(),
   paymentMethod: z.enum(["now", "later"]),
 });
@@ -90,6 +96,10 @@ const Reservation = () => {
     useState<FirstFormSchemaType | null>(null);
   const [secondFormData, setSecondFormData] = useState<
     (FirstFormSchemaType & { seating: TableOption }) | null
+  >(null);
+  const [finalFormData, setFinalFormData] = useState<
+    | (FirstFormSchemaType & { seating: TableOption } & ThirdFormSchemaType)
+    | null
   >(null);
 
   // Steps: 1=Date & Time, 2=Select seating, 3=Contact, 4=Success
@@ -196,6 +206,7 @@ const Reservation = () => {
   const onSubmitThird = (data: ThirdFormSchemaType) => {
     if (secondFormData) {
       const finalData = { ...secondFormData, ...data };
+      setFinalFormData(finalData);
       setStep(4);
       console.log("Final Reservation Data: ", finalData);
     }
@@ -660,7 +671,9 @@ const Reservation = () => {
                   <div className="flex justify-between gap-2 w-full">
                     <Button
                       size="lg"
-                      variant={selectedPayment === "later" ? "default" : "outline"}
+                      variant={
+                        selectedPayment === "later" ? "default" : "outline"
+                      }
                       className="rounded-lg w-[49%] py-6"
                       onClick={() => setValue("paymentMethod", "later")}
                     >
@@ -668,7 +681,9 @@ const Reservation = () => {
                     </Button>
                     <Button
                       size="lg"
-                      variant={selectedPayment === "now" ? "default" : "outline"}
+                      variant={
+                        selectedPayment === "now" ? "default" : "outline"
+                      }
                       className="rounded-lg w-[49%] py-6"
                       onClick={() => setValue("paymentMethod", "now")}
                     >
@@ -689,12 +704,87 @@ const Reservation = () => {
                       variant="default"
                       className="rounded-lg w-[80%] py-6"
                       type="submit"
-                      form="third-form" 
+                      form="third-form"
                     >
                       Confirm Reservation
                     </Button>
                   </div>
                 </CardFooter>
+              </Card>
+            </div>
+          )}
+
+          {/* Step 4: Success Message */}
+          {step === 4 && finalFormData && (
+            // Success Message
+            <div className="flex flex-col gap-4">
+              <div className="text-center">
+                <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                  <CheckCircle
+                    className="text-green-600"
+                    size={48}
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <h2 className="text-4xl font-serif font-bold text-stone-900 mb-4">
+                  Reservation Secured.
+                </h2>
+                <p className="text-stone-500 text-lg mb-10">
+                  We have sent a confirmation email to{" "}
+                  <span className="text-stone-900 font-semibold">
+                    {finalFormData.email}
+                  </span>
+                  .
+                </p>
+              </div>
+              {/* for additional details */}
+              <Card>
+                <Item
+                  key={finalFormData.seating.id}
+                  variant="outline"
+                  asChild
+                  role="listitem"
+                >
+                  <div>
+                    <ItemMedia variant="image" className=" size-36 ">
+                      <img
+                        src={finalFormData.seating.image}
+                        alt={finalFormData.seating.name}
+                      />
+                    </ItemMedia>
+                    <ItemContent>
+                      <ItemTitle className="line-clamp-1 uppercase">
+                        Everest Dining - {finalFormData.seating.name}
+                      </ItemTitle>
+                      <ItemDescription className="font-semibold flex flex-row gap-3">
+                        <span className="flex flex-row gap-1"><User /> {finalFormData.guests} Guests </span>
+                        <span className="flex flex-row gap-1"><CalendarIcon /> {finalFormData.date?.toLocaleDateString()} at {finalFormData.time}</span>
+                      </ItemDescription>
+                      <ItemDescription>
+                        Booked by {finalFormData.name} 
+                      </ItemDescription>
+                      <ItemDescription>
+                        Contact: {finalFormData.email} | {finalFormData.phone}
+                      </ItemDescription>
+                      <ItemDescription>
+                        Special Request: {finalFormData.specialRequest || "None"}
+                      </ItemDescription>
+                    </ItemContent>
+                    <ItemContent className="flex-none text-center">
+                      <ItemDescription
+                        className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                          finalFormData.seating.cost > 0
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-stone-100 text-stone-600"
+                        }`}
+                      >
+                        {finalFormData.seating.cost > 0
+                          ? `${finalFormData.paymentMethod === "now" ? "Paid $" : "Due $"}${finalFormData.seating.cost}`
+                          : "Free"}
+                      </ItemDescription>
+                    </ItemContent>
+                  </div>
+                </Item>
               </Card>
             </div>
           )}

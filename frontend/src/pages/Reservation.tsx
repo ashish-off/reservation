@@ -10,6 +10,7 @@ import {
   CheckCircle,
   User,
   Calendar as CalendarIcon,
+  CalendarPlus,
 } from "lucide-react";
 
 import {
@@ -668,28 +669,30 @@ const Reservation = () => {
                   </form>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
-                  <div className="flex justify-between gap-2 w-full">
-                    <Button
-                      size="lg"
-                      variant={
-                        selectedPayment === "later" ? "default" : "outline"
-                      }
-                      className="rounded-lg w-[49%] py-6"
-                      onClick={() => setValue("paymentMethod", "later")}
-                    >
-                      <Wallet size={18} /> Pay At Table
-                    </Button>
-                    <Button
-                      size="lg"
-                      variant={
-                        selectedPayment === "now" ? "default" : "outline"
-                      }
-                      className="rounded-lg w-[49%] py-6"
-                      onClick={() => setValue("paymentMethod", "now")}
-                    >
-                      <CreditCard size={18} /> Pay Now
-                    </Button>
-                  </div>
+                  {secondFormData.seating.cost > 0 && (
+                    <div className="flex justify-between gap-2 w-full">
+                      <Button
+                        size="lg"
+                        variant={
+                          selectedPayment === "later" ? "default" : "outline"
+                        }
+                        className="rounded-lg w-[49%] py-6"
+                        onClick={() => setValue("paymentMethod", "later")}
+                      >
+                        <Wallet size={18} /> Pay At Table
+                      </Button>
+                      <Button
+                        size="lg"
+                        variant={
+                          selectedPayment === "now" ? "default" : "outline"
+                        }
+                        className="rounded-lg w-[49%] py-6"
+                        onClick={() => setValue("paymentMethod", "now")}
+                      >
+                        <CreditCard size={18} /> Pay Now
+                      </Button>
+                    </div>
+                  )}
                   <div className="flex justify-between gap-2 w-full">
                     <Button
                       size="lg"
@@ -738,54 +741,144 @@ const Reservation = () => {
                 </p>
               </div>
               {/* for additional details */}
-              <Card>
-                <Item
-                  key={finalFormData.seating.id}
-                  variant="outline"
-                  asChild
-                  role="listitem"
-                >
-                  <div>
-                    <ItemMedia variant="image" className=" size-36 ">
-                      <img
-                        src={finalFormData.seating.image}
-                        alt={finalFormData.seating.name}
-                      />
-                    </ItemMedia>
-                    <ItemContent>
-                      <ItemTitle className="line-clamp-1 uppercase">
-                        Everest Dining - {finalFormData.seating.name}
-                      </ItemTitle>
-                      <ItemDescription className="font-semibold flex flex-row gap-3">
-                        <span className="flex flex-row gap-1"><User /> {finalFormData.guests} Guests </span>
-                        <span className="flex flex-row gap-1"><CalendarIcon /> {finalFormData.date?.toLocaleDateString()} at {finalFormData.time}</span>
-                      </ItemDescription>
-                      <ItemDescription>
-                        Booked by {finalFormData.name} 
-                      </ItemDescription>
-                      <ItemDescription>
-                        Contact: {finalFormData.email} | {finalFormData.phone}
-                      </ItemDescription>
-                      <ItemDescription>
-                        Special Request: {finalFormData.specialRequest || "None"}
-                      </ItemDescription>
-                    </ItemContent>
-                    <ItemContent className="flex-none text-center">
-                      <ItemDescription
-                        className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
-                          finalFormData.seating.cost > 0
-                            ? "bg-amber-100 text-amber-700"
-                            : "bg-stone-100 text-stone-600"
-                        }`}
-                      >
-                        {finalFormData.seating.cost > 0
-                          ? `${finalFormData.paymentMethod === "now" ? "Paid $" : "Due $"}${finalFormData.seating.cost}`
-                          : "Free"}
-                      </ItemDescription>
-                    </ItemContent>
+
+              <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+                {/* top section */}
+                <div className="bg-stone-50 px-6 py-4 border-b border-stone-200 flex justify-between items-center">
+                  <span className="font-bold text-stone-700">
+                    Reservation Details
+                  </span>
+                  <span
+                    className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide ${
+                      finalFormData.paymentMethod === "now" ||
+                      finalFormData.seating.cost === 0
+                        ? "bg-green-100 text-green-700"
+                        : "bg-amber-100 text-amber-700"
+                    }`}
+                  >
+                    {finalFormData.seating.cost === 0
+                      ? "Confirmed"
+                      : finalFormData.paymentMethod === "now"
+                      ? "Paid"
+                      : "Pay at Venue"}
+                  </span>
+                </div>
+
+                <div className="p-6 grid gap-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-stone-100 p-3 rounded-lg">
+                        <CalendarIcon className="text-stone-600" size={24} />
+                      </div>
+                      <div>
+                        <p className="text-sm text-stone-500 font-medium">
+                          Date & Time
+                        </p>
+                        <p className="text-lg font-bold text-stone-800">
+                          {finalFormData.date?.toLocaleDateString()} at{" "}
+                          {finalFormData.time}
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-stone-400 hover:text-zinc-600 hover:bg-amber-50"
+                      title="Add to Google Calendar"
+                    >
+                      <CalendarPlus className="size-6" />
+                    </Button>
                   </div>
-                </Item>
-              </Card>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-stone-100 p-2.5 rounded-lg">
+                        <User className="text-stone-600" size={20} />
+                      </div>
+                      <div>
+                        <p className="text-xs text-stone-500 font-bold uppercase">
+                          Guests
+                        </p>
+                        <p className="font-semibold text-stone-800">
+                          {finalFormData.guests} People
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="bg-stone-100 p-2.5 rounded-lg">
+                        <Utensils className="text-stone-600" size={20} />
+                      </div>
+                      <div>
+                        <p className="text-xs text-stone-500 font-bold uppercase">
+                          Table
+                        </p>
+                        <p className="font-semibold text-stone-800">
+                          {finalFormData.seating.name}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-stone-100">
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-stone-500 mb-1">Name</p>
+                        <p className="font-medium text-stone-900">
+                          {finalFormData.name}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-stone-500 mb-1">Contact</p>
+                        <p className="font-medium text-stone-900">
+                          {finalFormData.phone}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Payment Info if applicable */}
+                  {finalFormData.seating.cost > 0 && (
+                    <div className="bg-amber-50 p-4 rounded-lg border border-amber-100 flex justify-between items-center">
+                      <span className="text-amber-800 font-medium text-sm">
+                        Booking Fee
+                      </span>
+                      <span className="text-amber-900 font-bold">
+                        ${finalFormData.seating.cost}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Special Request */}
+                  {finalFormData.specialRequest && (
+                    <div className="bg-stone-50 p-4 rounded-lg border border-stone-200 text-sm">
+                      <p className="font-bold text-stone-700 mb-1">
+                        Special Request:
+                      </p>
+                      <p className="text-stone-600 italic">
+                        "{finalFormData.specialRequest}"
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Button
+                size={"lg"}
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                  className="w-full sm:w-[60%] py-6"
+                >
+                  Make Another Reservation
+                </Button>
+
+                <a href="/" className="w-full sm:w-[32%]">
+                  <Button size={"lg"} variant={"default"} className="w-full py-6">
+                    <Utensils size={18} />
+                    Browse Menu
+                  </Button>
+                </a>
+              </div>
             </div>
           )}
         </div>

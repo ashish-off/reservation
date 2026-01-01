@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme {
+  --font-sans: "Roboto", ui-sans-serif, system-ui;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

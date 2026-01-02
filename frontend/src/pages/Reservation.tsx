@@ -11,6 +11,11 @@ import {
   User,
   Calendar as CalendarIcon,
   CalendarPlus,
+  Clock,
+  Users,
+  Mail,
+  Phone,
+  MessageSquare,
 } from "lucide-react";
 
 import {
@@ -214,17 +219,24 @@ const Reservation = () => {
   };
 
   return (
-    <div className=" min-h-screen bg-stone-500 flex flex-col lg:flex-row font-sans text-stone-800 ">
+    <div className="relative min-h-screen lg:h-screen  flex flex-col lg:flex-row font-sans text-stone-800 lg:overflow-hidden">
+      <div className="absolute  bg-[url('/background.svg')] bg-cover bg-local bg-top-right inset-0 isolate -z-1"></div>
+      <div className="absolute bg-[url('/center.svg')] bg-cover bg-local bg-center inset-0 z-0"></div>
+      <div className="absolute bg-[url('/bottom.svg')] bg-cover  bg-local bg-bottom-left inset-0 z-0"></div>
+
       {/* LEFT PANEL */}
-      <div className="lg:w-5/12 bg-stone-900 relative p-8 lg:p-16 flex flex-col justify-between lg:items-center text-white overflow-hidden min-h-fit lg:min-h-screen shrink-0">
+      <div className="lg:w-5/12  relative lg:h-full p-8 lg:p-16 flex flex-col justify-between lg:items-center overflow-hidden min-h-fit shrink-0">
         {/* Decorative Background */}
-        <div className="absolute inset-0 bg-linear-to-br from-stone-800 to-stone-950 opacity-90 z-0"></div>
-        <div className="absolute -right-20 -top-20 w-80 h-80 bg-amber-600 rounded-full mix-blend-overlay opacity-20 blur-3xl"></div>
-        <div className="absolute -left-20 bottom-0 w-64 h-64 bg-amber-500 rounded-full mix-blend-overlay opacity-20 blur-3xl"></div>
+        {/* <div className="absolute bg-[url('/background.svg')] bg-cover bg-local bg-right inset-0 z-0"></div>
+        <div className="absolute bg-[url('/center.svg')] bg-cover bg-local bg-right inset-0 z-0"></div>
+        <div className="absolute bg-[url('/bottom.svg')] bg-cover  bg-local bg-bottom-left inset-0 z-0"></div> */}
+
+        {/* <div className="absolute -right-20 -top-20 w-80 h-80 bg-amber-600 rounded-full mix-blend-overlay opacity-20 blur-3xl"></div> */}
+        {/* <div className="absolute -left-20 bottom-0 w-64 h-64 bg-amber-500 rounded-full mix-blend-overlay opacity-20 blur-3xl"></div> */}
 
         {/* Brand Content */}
         <div className="relative z-10">
-          <div className="flex items-center gap-3 text-amber-500 mb-8">
+          <div className="flex items-center gap-3 text-zinc-800 mb-8">
             <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/5 shadow-lg">
               <Utensils size={24} />
             </div>
@@ -233,10 +245,10 @@ const Reservation = () => {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight mb-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6">
             {step === 4 ? "Table Secured." : "Experience the Extraordinary."}
           </h1>
-          <p className="text-stone-400 text-sm lg:text-lg leading-relaxed max-w-md">
+          <p className="text-stone-600 font-semibold text-sm lg:text-lg leading-relaxed max-w-md">
             From intimate booths to the vibrant stage, reserve your perfect
             moment with us today.
           </p>
@@ -245,7 +257,7 @@ const Reservation = () => {
         {/* Hidden on mobile  */}
         <div className="relative z-10 hidden lg:block my-0 lg:max-w-2xl">
           <Quote className="text-amber-600 mb-6 opacity-60 " size={40} />
-          <p className="text-xl font-serif italic text-stone-200 mb-6 leading-relaxed">
+          <p className="text-xl text-zinc-700 italic font-semibold mb-6 leading-relaxed">
             Enjoy an unforgettable meal. Whether you seek a cozy private nook or
             a vibrant window-side garden setting, Everest Dining promises the
             perfect atmosphere for every occasion.
@@ -254,8 +266,8 @@ const Reservation = () => {
       </div>
 
       {/* RIGHT PANEL */}
-      <div className="flex-1 bg-white relative flex flex-col justify-center">
-        <div className="flex-1 mx-auto px-6 py-12 lg:px-8 w-full max-w-2xl h-full flex flex-col  max-h-[92vh] box-border border-2 border-red-600">
+      <div className="flex-1 relative flex flex-col lg:h-full lg:overflow-y-auto">
+        <div className="flex-1 mx-auto px-6 py-12 lg:px-8 w-full max-w-2xl h-full flex flex-col box-border">
           {/* progress Bar */}
           {step < 4 && (
             <div className="mb-12 ">
@@ -285,10 +297,10 @@ const Reservation = () => {
 
           {/* Step 1: Find a Table */}
           {step === 1 && (
-            <Card>
+            <Card className="bg-pink-100/30 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/35">
               <CardHeader>
-                <CardTitle>Find a Table</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-stone-800">Find a Table</CardTitle>
+                <CardDescription className="text-stone-500">
                   Select your preferred date and time to begin.
                 </CardDescription>
               </CardHeader>
@@ -305,9 +317,20 @@ const Reservation = () => {
                       render={({ field, fieldState }) => (
                         <Field data-invalid={fieldState.invalid}>
                           <div className="flex flex-col gap-3">
-                            <FieldLabel htmlFor="date" className="px-1">
-                              DATE
-                            </FieldLabel>
+                            <div className="flex items-center gap-2">
+                              <div className="bg-amber-100/50 p-1.5 rounded-md">
+                                <CalendarIcon
+                                  className="text-amber-800"
+                                  size={16}
+                                />
+                              </div>
+                              <FieldLabel
+                                htmlFor="date"
+                                className="font-semibold"
+                              >
+                                Date
+                              </FieldLabel>
+                            </div>
                             <Popover open={open} onOpenChange={setOpen}>
                               <PopoverTrigger asChild>
                                 <Button
@@ -352,7 +375,17 @@ const Reservation = () => {
                       render={({ field, fieldState }) => (
                         <div className="w-full max-w-md">
                           <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="time">TIME</FieldLabel>
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="bg-amber-100/50 p-1.5 rounded-md">
+                                <Clock className="text-amber-800" size={16} />
+                              </div>
+                              <FieldLabel
+                                htmlFor="time"
+                                className="font-semibold"
+                              >
+                                Time
+                              </FieldLabel>
+                            </div>
                             <Select
                               value={field.value}
                               onValueChange={field.onChange}
@@ -385,7 +418,17 @@ const Reservation = () => {
                       render={({ field, fieldState }) => (
                         <div className="w-full max-w-md">
                           <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="guests">GUESTS</FieldLabel>
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="bg-amber-100/50 p-1.5 rounded-md">
+                                <Users className="text-amber-800" size={16} />
+                              </div>
+                              <FieldLabel
+                                htmlFor="guests"
+                                className="font-semibold"
+                              >
+                                Guests
+                              </FieldLabel>
+                            </div>
                             <Select
                               value={field.value?.toString()}
                               onValueChange={(value) =>
@@ -432,7 +475,7 @@ const Reservation = () => {
 
           {/* Step 2: Select Table */}
           {step === 2 && (
-            <Card>
+            <Card className="bg-pink-100/30 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/35">
               <CardHeader>
                 <CardAction>
                   <Button
@@ -445,8 +488,8 @@ const Reservation = () => {
                     <ArrowLeftIcon />
                   </Button>
                 </CardAction>
-                <CardTitle>3 Tables Found</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-stone-800">3 Tables Found</CardTitle>
+                <CardDescription className="text-stone-500">
                   Select a seating area for your reservation
                 </CardDescription>
               </CardHeader>
@@ -485,10 +528,10 @@ const Reservation = () => {
                             </Popover>
                           </ItemMedia>
                           <ItemContent>
-                            <ItemTitle className="line-clamp-1">
+                            <ItemTitle className="line-clamp-1 font-bold text-stone-800">
                               {table.name}
                             </ItemTitle>
-                            <ItemDescription>
+                            <ItemDescription className="text-zinc-600 font-medium">
                               {table.description}
                             </ItemDescription>
                             <ItemDescription>
@@ -521,12 +564,13 @@ const Reservation = () => {
 
           {/* Step 3: Contact Details */}
           {step === 3 && secondFormData && (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 ">
               <Item
                 key={secondFormData.seating.id}
                 variant="outline"
                 asChild
                 role="listitem"
+                className="bg-pink-100/20 backdrop-blur-lg border-zinc-300/10 shadow-lg ring-2 ring-pink-300/20"
               >
                 <div>
                   <ItemMedia variant="image" className=" size-16 ">
@@ -536,10 +580,10 @@ const Reservation = () => {
                     />
                   </ItemMedia>
                   <ItemContent>
-                    <ItemTitle className="line-clamp-1">
+                    <ItemTitle className="line-clamp-1 font-bold text-stone-800">
                       {secondFormData.seating.name}
                     </ItemTitle>
-                    <ItemDescription>
+                    <ItemDescription className="text-zinc-600 font-medium">
                       {secondFormData.seating.description}
                     </ItemDescription>
                     <ItemDescription>
@@ -566,10 +610,12 @@ const Reservation = () => {
                 </div>
               </Item>
 
-              <Card>
+              <Card className="bg-pink-100/30 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/15">
                 <CardHeader>
-                  <CardTitle>Contact Details</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-stone-800">
+                    Contact Details
+                  </CardTitle>
+                  <CardDescription className="text-stone-500">
                     Please provide your contact information to confirm.
                   </CardDescription>
                 </CardHeader>
@@ -584,7 +630,17 @@ const Reservation = () => {
                         control={thirdForm.control}
                         render={({ field, fieldState }) => (
                           <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="name">Full Name</FieldLabel>
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="bg-amber-100/50 p-1.5 rounded-md">
+                                <User className="text-amber-800" size={16} />
+                              </div>
+                              <FieldLabel
+                                htmlFor="name"
+                                className="font-semibold"
+                              >
+                                Full Name
+                              </FieldLabel>
+                            </div>
                             <Input
                               {...field}
                               id="name"
@@ -605,9 +661,17 @@ const Reservation = () => {
                           control={thirdForm.control}
                           render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                              <FieldLabel htmlFor="email">
-                                Email Address
-                              </FieldLabel>
+                              <div className="flex items-center gap-2 mb-1">
+                                <div className="bg-amber-100/50 p-1.5 rounded-md">
+                                  <Mail className="text-amber-800" size={16} />
+                                </div>
+                                <FieldLabel
+                                  htmlFor="email"
+                                  className="font-semibold"
+                                >
+                                  Email Address
+                                </FieldLabel>
+                              </div>
                               <Input
                                 {...field}
                                 id="email"
@@ -627,9 +691,17 @@ const Reservation = () => {
                           control={thirdForm.control}
                           render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                              <FieldLabel htmlFor="phone">
-                                Phone Number
-                              </FieldLabel>
+                              <div className="flex items-center gap-2 mb-1">
+                                <div className="bg-amber-100/50 p-1.5 rounded-md">
+                                  <Phone className="text-amber-800" size={16} />
+                                </div>
+                                <FieldLabel
+                                  htmlFor="phone"
+                                  className="font-semibold"
+                                >
+                                  Phone Number
+                                </FieldLabel>
+                              </div>
                               <Input
                                 {...field}
                                 id="phone"
@@ -650,9 +722,20 @@ const Reservation = () => {
                         control={thirdForm.control}
                         render={({ field, fieldState }) => (
                           <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel htmlFor="specialRequest">
-                              Special Request
-                            </FieldLabel>
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="bg-amber-100/50 p-1.5 rounded-md">
+                                <MessageSquare
+                                  className="text-amber-800"
+                                  size={16}
+                                />
+                              </div>
+                              <FieldLabel
+                                htmlFor="specialRequest"
+                                className="font-semibold"
+                              >
+                                Special Request
+                              </FieldLabel>
+                            </div>
                             <Textarea
                               {...field}
                               id="specialRequest"
@@ -676,7 +759,7 @@ const Reservation = () => {
                         variant={
                           selectedPayment === "later" ? "default" : "outline"
                         }
-                        className="rounded-lg w-[49%] py-6"
+                        className={`rounded-lg w-[49%] py-6 ${selectedPayment === "later" ? "" : "bg-white/50"}`}
                         onClick={() => setValue("paymentMethod", "later")}
                       >
                         <Wallet size={18} /> Pay At Table
@@ -686,7 +769,7 @@ const Reservation = () => {
                         variant={
                           selectedPayment === "now" ? "default" : "outline"
                         }
-                        className="rounded-lg w-[49%] py-6"
+                        className={`rounded-lg w-[49%] py-6 ${selectedPayment === "now" ? "" : "bg-white/50"} `}
                         onClick={() => setValue("paymentMethod", "now")}
                       >
                         <CreditCard size={18} /> Pay Now
@@ -697,7 +780,7 @@ const Reservation = () => {
                     <Button
                       size="lg"
                       variant="outline"
-                      className="rounded-lg w-[18%] py-6"
+                      className="rounded-lg w-[18%] py-6 bg-white/50"
                       onClick={() => setStep(2)}
                     >
                       Back
@@ -732,7 +815,7 @@ const Reservation = () => {
                 <h2 className="text-4xl font-serif font-bold text-stone-900 mb-4">
                   Reservation Secured.
                 </h2>
-                <p className="text-stone-500 text-lg mb-10">
+                <p className="text-stone-600 text-lg mb-10">
                   We have sent a confirmation email to{" "}
                   <span className="text-stone-900 font-semibold">
                     {finalFormData.email}
@@ -742,9 +825,9 @@ const Reservation = () => {
               </div>
               {/* for additional details */}
 
-              <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
+              <div className="bg-pink-100/30 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/15 rounded-lg overflow-hidden">
                 {/* top section */}
-                <div className="bg-stone-50 px-6 py-4 border-b border-stone-200 flex justify-between items-center">
+                <div className="bg-pink-100/10 backdrop-blur-lg px-6 py-4 border-b border-stone-300/20 flex justify-between items-center">
                   <span className="font-bold text-stone-700">
                     Reservation Details
                   </span>
@@ -752,8 +835,8 @@ const Reservation = () => {
                     className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide ${
                       finalFormData.paymentMethod === "now" ||
                       finalFormData.seating.cost === 0
-                        ? "bg-green-100 text-green-700"
-                        : "bg-amber-100 text-amber-700"
+                        ? "bg-green-100/50 text-green-700"
+                        : "bg-amber-100/50 text-amber-700"
                     }`}
                   >
                     {finalFormData.seating.cost === 0
@@ -767,14 +850,14 @@ const Reservation = () => {
                 <div className="p-6 grid gap-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="bg-stone-100 p-3 rounded-lg">
-                        <CalendarIcon className="text-stone-600" size={24} />
+                      <div className="bg-amber-100/50 p-3 rounded-lg">
+                        <CalendarIcon className="text-amber-800" size={24} />
                       </div>
                       <div>
-                        <p className="text-sm text-stone-500 font-medium">
+                        <p className="text-xs text-zinc-600 font-bold uppercase">
                           Date & Time
                         </p>
-                        <p className="text-lg font-bold text-stone-800">
+                        <p className="font-bold">
                           {finalFormData.date?.toLocaleDateString()} at{" "}
                           {finalFormData.time}
                         </p>
@@ -783,7 +866,7 @@ const Reservation = () => {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-stone-400 hover:text-zinc-600 hover:bg-amber-50"
+                      className="text-amber-800 hover:text-amber-700 hover:bg-amber-100/20"
                       title="Add to Google Calendar"
                     >
                       <CalendarPlus className="size-6" />
@@ -792,44 +875,44 @@ const Reservation = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="bg-stone-100 p-2.5 rounded-lg">
-                        <User className="text-stone-600" size={20} />
+                      <div className="bg-amber-100/50 p-2.5 rounded-lg">
+                        <User className="text-amber-800" size={20} />
                       </div>
                       <div>
-                        <p className="text-xs text-stone-500 font-bold uppercase">
+                        <p className="text-xs text-zinc-600 font-bold uppercase">
                           Guests
                         </p>
-                        <p className="font-semibold text-stone-800">
+                        <p className="font-semibold">
                           {finalFormData.guests} People
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="bg-stone-100 p-2.5 rounded-lg">
-                        <Utensils className="text-stone-600" size={20} />
+                      <div className="bg-amber-100/50 p-2.5 rounded-lg">
+                        <Utensils className="text-amber-800" size={20} />
                       </div>
                       <div>
-                        <p className="text-xs text-stone-500 font-bold uppercase">
+                        <p className="text-xs text-zinc-600 font-bold uppercase">
                           Table
                         </p>
-                        <p className="font-semibold text-stone-800">
+                        <p className="font-semibold">
                           {finalFormData.seating.name}
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-stone-100">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="pt-4 border-t border-zinc-200/50">
+                    <div className="grid grid-cols-2 gap-4 text-sm uppercase">
                       <div>
-                        <p className="text-stone-500 mb-1">Name</p>
-                        <p className="font-medium text-stone-900">
+                        <p className="text-zinc-600 font-bold mb-1">Name</p>
+                        <p className="font-medium">
                           {finalFormData.name}
                         </p>
                       </div>
                       <div>
-                        <p className="text-stone-500 mb-1">Contact</p>
-                        <p className="font-medium text-stone-900">
+                        <p className="text-zinc-600 font-bold mb-1">Contact</p>
+                        <p className="font-medium">
                           {finalFormData.phone}
                         </p>
                       </div>
@@ -838,11 +921,11 @@ const Reservation = () => {
 
                   {/* Payment Info if applicable */}
                   {finalFormData.seating.cost > 0 && (
-                    <div className="bg-amber-50 p-4 rounded-lg border border-amber-100 flex justify-between items-center">
-                      <span className="text-amber-800 font-medium text-sm">
+                    <div className="bg-amber-50/30 border-amber-100/30 p-4 rounded-lg border  flex justify-between items-center">
+                      <span className="text-zinc-600 font-bold text-sm">
                         Booking Fee
                       </span>
-                      <span className="text-amber-900 font-bold">
+                      <span className="text-amber-800 font-bold">
                         ${finalFormData.seating.cost}
                       </span>
                     </div>
@@ -850,11 +933,11 @@ const Reservation = () => {
 
                   {/* Special Request */}
                   {finalFormData.specialRequest && (
-                    <div className="bg-stone-50 p-4 rounded-lg border border-stone-200 text-sm">
-                      <p className="font-bold text-stone-700 mb-1">
+                    <div className="bg-amber-50/30 border-amber-100/30 p-4 rounded-lg border text-sm">
+                      <p className="font-bold text-zinc-600 mb-1">
                         Special Request:
                       </p>
-                      <p className="text-stone-600 italic">
+                      <p className="text-zinc-900 italic">
                         "{finalFormData.specialRequest}"
                       </p>
                     </div>
@@ -864,16 +947,20 @@ const Reservation = () => {
 
               <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
-                size={"lg"}
+                  size={"lg"}
                   onClick={() => window.location.reload()}
                   variant="outline"
-                  className="w-full sm:w-[60%] py-6"
+                  className="w-full sm:w-[60%] py-6 font-bold text-stone-900 bg-white/50"
                 >
                   Make Another Reservation
                 </Button>
 
                 <a href="/" className="w-full sm:w-[32%]">
-                  <Button size={"lg"} variant={"default"} className="w-full py-6">
+                  <Button
+                    size={"lg"}
+                    variant={"default"}
+                    className="w-full py-6 font-bold"
+                  >
                     <Utensils size={18} />
                     Browse Menu
                   </Button>

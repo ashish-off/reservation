@@ -146,6 +146,33 @@ const Reservation = () => {
       id: "premium-stage",
       name: "Premium Stage",
       description: "Center of the action with live piano view.",
+      features: ["High Visibility", "Near Stage", "a", "Ad", "d","e"],
+      image:
+        "https://imgs.search.brave.com/OtlustJ2khsHnBDP0EEfmQcdiHRfDlcBDDAXw8xUAAM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9oaWdoLWJsdXJy/ZWQtaW50ZXJpb3It/bHV4dXJ5Xzg3NzIw/LTE1NTM5Ny5qcGc_/c2VtdD1haXNfaHli/cmlkJnc9NzQwJnE9/ODA",
+      cost: 25,
+    },
+    {
+      id: "window-garden",
+      name: "Window Garden",
+      description: "Quiet corner with a view of the patio.",
+      features: ["Natural Light", "Quiet Area"],
+      image:
+        "https://imgs.search.brave.com/PDGJTLk94xwe2dw1Ksq1m4Mg4MhomDMTKgxLk1HpBJw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE2/NDM4NTY1NTcxNDMt/MDkxODllNTIzZmQ2/P2ZtPWpwZyZxPTYw/Jnc9MzAwMCZpeGxp/Yj1yYi00LjEuMCZp/eGlkPU0zd3hNakEz/ZkRCOE1IeHpaV0Z5/WTJoOE5IeDhiM1Yw/Wkc5dmNpVXlNSEps/YzNSaGRYSmhiblI4/Wlc1OE1IeDhNSHg4/ZkRBPQ",
+      cost: 0,
+    },
+    {
+      id: "private-booth",
+      name: "Private Booth",
+      description: "Cozy semi-private seating for intimate dining.",
+      features: ["Plush Seating", "Semi-Private"],
+      image:
+        "https://imgs.search.brave.com/TUZA4G9pwnzllTMObP2tKMG0Lj0H6NPmaStW9eb0VjM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzg0L2Jk/L2VhLzg0YmRlYWMy/YzEwZjdlOTI3MWM3/NWZjNzFlY2FlOTYy/LmpwZw",
+      cost: 15,
+    },
+    {
+      id: "premium-stage",
+      name: "Premium Stage",
+      description: "Center of the action with live piano view.",
       features: ["High Visibility", "Near Stage"],
       image:
         "https://imgs.search.brave.com/OtlustJ2khsHnBDP0EEfmQcdiHRfDlcBDDAXw8xUAAM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9oaWdoLWJsdXJy/ZWQtaW50ZXJpb3It/bHV4dXJ5Xzg3NzIw/LTE1NTM5Ny5qcGc_/c2VtdD1haXNfaHli/cmlkJnc9NzQwJnE9/ODA",
@@ -264,12 +291,12 @@ const Reservation = () => {
         <div className="mx-auto px-6 py-4 lg:py-8 lg:px-8 w-full max-w-2xl flex flex-col box-border  lg:my-auto">
           {/* progress Bar */}
           {step < 4 && (
-            <div className="mb-12 ">
+            <div className="mb-6 sm:mb-12 ">
               <div className="flex items-center justify-between relative mb-2">
                 {[1, 2, 3].map((s) => (
                   <div
                     key={s}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 ${
+                    className={`sm:w-10 w-8 sm:h-10 h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold border-2 transition-all duration-300 ${
                       step >= s
                         ? "bg-stone-900 border-stone-900 text-white shadow-lg scale-105"
                         : "bg-white/10 border-stone-400/15 text-stone-600"
@@ -488,7 +515,7 @@ const Reservation = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex w-full flex-col gap-4 max-h-[400px] overflow-y-scroll custom-scrollbar">
+                <div className="flex w-full flex-col gap-4 max-h-[450px] overflow-y-scroll custom-scrollbar">
                   <ItemGroup className="gap-4">
                     {tableOptions.map((table) => (
                       <Item
@@ -496,7 +523,7 @@ const Reservation = () => {
                         variant="outline"
                         asChild
                         role="listitem"
-                        className="border-stone-400/20 shadow-md"
+                        className="border-stone-400/20 shadow-md p-2 sm:p-4 "
                       >
                         <div onClick={() => onSelectSecond(table)}>
                           <ItemMedia
@@ -526,12 +553,12 @@ const Reservation = () => {
                             <ItemTitle className="line-clamp-1 font-bold text-stone-800">
                               {table.name}
                             </ItemTitle>
-                            <ItemDescription className="text-zinc-600 font-medium">
+                            <ItemDescription className="text-zinc-600 font-medium text-xs sm:text-sm text-pretty md:text-balance ">
                               {table.description}
                             </ItemDescription>
-                            <ItemDescription>
+                            <ItemDescription className="text-wrap">
                               {table.features.map((feature, i) => (
-                                <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1">
+                                <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1 text-[10px] font-semibold sm:text-xs mb-1">
                                   {feature}
                                 </Badge>
                               ))}
@@ -539,7 +566,7 @@ const Reservation = () => {
                           </ItemContent>
                           <ItemContent className="flex-none text-center">
                             <ItemDescription
-                              className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                              className={`px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide ${
                                 table.cost > 0
                                   ? "bg-amber-100 text-amber-700"
                                   : "bg-stone-100 text-green-600"
@@ -565,7 +592,7 @@ const Reservation = () => {
                 variant="outline"
                 asChild
                 role="listitem"
-                className="bg-pink-100/20 backdrop-blur-lg border-zinc-300/10 shadow-lg ring-2 ring-pink-300/20"
+                className="bg-pink-100/20 backdrop-blur-lg border-zinc-300/10 shadow-lg ring-2 ring-pink-300/20 p-2 sm:p-4"
               >
                 <div>
                   <ItemMedia variant="image" className=" size-16 ">
@@ -578,12 +605,12 @@ const Reservation = () => {
                     <ItemTitle className="line-clamp-1 font-bold text-stone-800">
                       {secondFormData.seating.name}
                     </ItemTitle>
-                    <ItemDescription className="text-zinc-600 font-medium">
+                    <ItemDescription className="text-zinc-600 font-medium text-xs sm:text-sm text-pretty md:text-balance">
                       {secondFormData.seating.description}
                     </ItemDescription>
-                    <ItemDescription>
+                    <ItemDescription className="text-wrap">
                       {secondFormData.seating.features.map((feature, i) => (
-                        <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1">
+                        <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1 text-[10px] font-semibold sm:text-xs mb-1">
                           {feature}
                         </Badge>
                       ))}
@@ -591,7 +618,7 @@ const Reservation = () => {
                   </ItemContent>
                   <ItemContent className="flex-none text-center">
                     <ItemDescription
-                      className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
+                      className={`px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wide ${
                         secondFormData.seating.cost > 0
                           ? "bg-amber-100 text-amber-700"
                           : "bg-stone-100 text-green-600"

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { NavbarLinkType } from "../types";
 import { Link } from "react-scroll";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { Menu, X } from "lucide-react";
 import Button from "./customUI/Button";
 
 const Navbar = () => {
@@ -48,7 +48,7 @@ const Navbar = () => {
             onClick={() => setShow(!show)}
             className="text-3xl cursor-pointer block md:hidden"
           >
-            <GiHamburgerMenu />
+            {show ? <X size={28} /> : <Menu size={28} />}
           </span>
         </div>
         <ul
@@ -60,7 +60,7 @@ const Navbar = () => {
         >
           {navbarLinks.map((element) => (
             <li
-              className="md:text-xl mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 font-medium cursor-pointer"
+              className="md:text-lg mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 font-medium cursor-pointer"
               key={element.id}
             >
               <Link
@@ -74,7 +74,7 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
-          <Button className="mt-3 mx-4 text-base md:text-xl ">Our Menu</Button>
+          <Button className="mx-4 text-base md:text-lg ">Our Menu</Button>
         </ul>
       </div>
     </nav>

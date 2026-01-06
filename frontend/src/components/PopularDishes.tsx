@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Button from "./customUI/Button";
-import { MdKeyboardArrowRight} from "react-icons/md"
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 const PopularDishes = () => {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
@@ -67,50 +67,55 @@ const PopularDishes = () => {
   ];
 
   return (
-    <section className="w-full max-w-6xl md:mx-auto px-4 py-8 flex flex-col gap-4 md:gap-8 ">
-      <div className="flex flex-row justify-between items-center">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
-          Popular Dishes
-        </h1>
-        <Button className="flex shadow-none hover:text-gray-700">Show More<MdKeyboardArrowRight className="relative bottom-px" size={30}/></Button>
-      </div>
+    <section className="py-8">
+      <div className="container mx-auto px-4 flex flex-col gap-4 md:gap-8 ">
+        <div className="flex flex-row justify-between items-center">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+            Popular Dishes
+          </h1>
+          <Button className="flex shadow-none hover:text-gray-700">
+            Show More
+            <MdKeyboardArrowRight className="relative bottom-px" size={30} />
+          </Button>
+        </div>
 
-      <Carousel
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        plugins={[plugin.current]}
-        onMouseEnter={() => plugin.current.stop()}
-        onMouseLeave={() => plugin.current.play()}
-        className="w-full "
-      >
-        <CarouselContent>
-          {dishes.map((element) => (
-            <CarouselItem
-              key={element.id}
-              className="basis-1/1 sm:basis-1/2  lg:basis-1/3 pl-17 sm:pl-12"
-            >
-              <div
-                className="w-2xs flex flex-col items-center justify-center gap-1"
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[plugin.current]}
+          onMouseEnter={() => plugin.current.stop()}
+          onMouseLeave={() => plugin.current.play()}
+          className="w-full "
+        >
+          <CarouselContent>
+            {dishes.map((element) => (
+              <CarouselItem
                 key={element.id}
+                className="basis-1/1 sm:basis-1/2  lg:basis-1/3 pl-17 sm:pl-12"
               >
-                <div className="w-58 sm:w-3xs  box-border overflow-hidden">
-                  <img src={element.image} alt={element.title} />
-                </div>
+                <div
+                  className="w-2xs flex flex-col items-center justify-center gap-1"
+                  key={element.id}
+                >
+                  <div className="w-58 sm:w-3xs  box-border overflow-hidden">
+                    <img src={element.image} alt={element.title} />
+                  </div>
 
-                <h3 className="text-sm font-semibold">{element.title}</h3>
-                <div className="flex flex-row gap-2">
-                  <Category>{element.category}</Category>
-                  <Category>{element.category}</Category>
+                  <h3 className="text-sm font-semibold">{element.title}</h3>
+                  <div className="flex flex-row gap-2">
+                    <Category>{element.category}</Category>
+                    <Category>{element.category}</Category>
+                  </div>
                 </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
     </section>
   );
 };

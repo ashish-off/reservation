@@ -26,18 +26,29 @@ const Qualities = () => {
   ];
 
   return (
-    <section className="w-full max-w-6xl md:mx-auto px-4 py-8 flex flex-col gap-4 sm:gap-8 items-center justify-center sm:flex-row " id="qualities">
-      {Qualities.map((quality) => (
-        <div key={quality.id} className="w-[90%] sm:w-xs flex flex-col justify-center items-center">
-          <img
-            className="w-[130px] mb-6"
-            src={`/${quality.image}`}
-            alt="picture"
-          />
-          <h1 className="font-bold text-lg md:text-xl text-center mb-4">{quality.title}</h1>
-          <p className="text-gray-700 text-center text-sm md:text-lg">{quality.description}</p>
-        </div>
-      ))}
+    <section className="py-8" id="qualities">
+      <div
+        className="container mx-auto px-4 flex flex-col gap-4 sm:gap-8 items-center justify-center sm:flex-row"
+      >
+        {Qualities.map((quality) => (
+          <div
+            key={quality.id}
+            className="w-[90%] sm:w-xs flex flex-col justify-center items-center"
+          >
+            <img
+              className="w-[130px] mb-6"
+              src={`/${quality.image}`}
+              alt="picture"
+            />
+            <h1 className="font-bold text-lg md:text-xl text-center mb-4">
+              {quality.title}
+            </h1>
+            <p className="text-gray-700 text-center text-sm md:text-lg">
+              {quality.description}
+            </p>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

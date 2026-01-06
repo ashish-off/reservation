@@ -220,23 +220,17 @@ const Reservation = () => {
 
   return (
     <div className="relative min-h-screen lg:h-screen  flex flex-col lg:flex-row font-sans text-stone-800 lg:overflow-hidden">
+        {/* Decorative Background */}
       <div className="absolute  bg-[url('/background.svg')] bg-cover bg-local bg-top-right inset-0 isolate -z-1"></div>
       <div className="absolute bg-[url('/center.svg')] bg-cover bg-local bg-center inset-0 z-0"></div>
       <div className="absolute bg-[url('/bottom.svg')] bg-cover  bg-local bg-bottom-left inset-0 z-0"></div>
 
       {/* LEFT PANEL */}
-      <div className="lg:w-5/12  relative lg:h-full p-8 lg:p-16 flex flex-col justify-between lg:items-center overflow-hidden min-h-fit shrink-0">
-        {/* Decorative Background */}
-        {/* <div className="absolute bg-[url('/background.svg')] bg-cover bg-local bg-right inset-0 z-0"></div>
-        <div className="absolute bg-[url('/center.svg')] bg-cover bg-local bg-right inset-0 z-0"></div>
-        <div className="absolute bg-[url('/bottom.svg')] bg-cover  bg-local bg-bottom-left inset-0 z-0"></div> */}
-
-        {/* <div className="absolute -right-20 -top-20 w-80 h-80 bg-amber-600 rounded-full mix-blend-overlay opacity-20 blur-3xl"></div> */}
-        {/* <div className="absolute -left-20 bottom-0 w-64 h-64 bg-amber-500 rounded-full mix-blend-overlay opacity-20 blur-3xl"></div> */}
+      <div className="lg:w-5/12  relative lg:h-full p-4 sm:p-8 lg:p-16  flex flex-col justify-between lg:items-center overflow-hidden min-h-fit shrink-0">
 
         {/* Brand Content */}
         <div className="relative z-10">
-          <div className="flex items-center gap-3 text-zinc-800 mb-8">
+          <div className="flex items-center gap-3 text-zinc-800 mb-3 sm:mb-8">
             <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/5 shadow-lg">
               <Utensils size={24} />
             </div>
@@ -245,7 +239,7 @@ const Reservation = () => {
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6">
+          <h1 className="text-[25px] md:text-4xl lg:text-5xl font-semibold mb-1 sm:mb-6">
             {step === 4 ? "Table Secured." : "Experience the Extraordinary."}
           </h1>
           <p className="text-stone-600 font-semibold text-sm lg:text-lg leading-relaxed max-w-md">
@@ -266,8 +260,8 @@ const Reservation = () => {
       </div>
 
       {/* RIGHT PANEL */}
-      <div className="flex-1 relative flex flex-col lg:h-full lg:overflow-y-auto">
-        <div className="flex-1 mx-auto px-6 py-12 lg:px-8 w-full max-w-2xl h-full flex flex-col box-border">
+      <div className="flex-1 flex flex-col lg:h-full lg:overflow-y-auto  relative z-10">
+        <div className="mx-auto px-6 py-4 lg:py-8 lg:px-8 w-full max-w-2xl flex flex-col box-border  lg:my-auto">
           {/* progress Bar */}
           {step < 4 && (
             <div className="mb-12 ">
@@ -278,14 +272,14 @@ const Reservation = () => {
                     className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 ${
                       step >= s
                         ? "bg-stone-900 border-stone-900 text-white shadow-lg scale-105"
-                        : "bg-white border-stone-200 text-stone-300"
+                        : "bg-white/10 border-stone-400/15 text-stone-600"
                     }`}
                   >
                     {s}
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between text-xs font-bold text-stone-400 uppercase tracking-widest px-1">
+              <div className="flex justify-between text-xs font-bold text-stone-700 uppercase tracking-widest px-1">
                 <span>Date & Time</span>
                 <span>Seating Area</span>
                 <span>Details</span>
@@ -332,7 +326,7 @@ const Reservation = () => {
                               </FieldLabel>
                             </div>
                             <Popover open={open} onOpenChange={setOpen}>
-                              <PopoverTrigger asChild>
+                              <PopoverTrigger className="bg-transparent" asChild>
                                 <Button
                                   variant="outline"
                                   id="date"
@@ -483,7 +477,7 @@ const Reservation = () => {
                     variant="outline"
                     size="icon"
                     aria-label="Go Back"
-                    className="rounded-full"
+                    className="rounded-full bg-white/30 border border-stone-400/30 shadow-md"
                   >
                     <ArrowLeftIcon />
                   </Button>
@@ -502,6 +496,7 @@ const Reservation = () => {
                         variant="outline"
                         asChild
                         role="listitem"
+                        className="border-stone-400/20 shadow-md"
                       >
                         <div onClick={() => onSelectSecond(table)}>
                           <ItemMedia
@@ -536,7 +531,7 @@ const Reservation = () => {
                             </ItemDescription>
                             <ItemDescription>
                               {table.features.map((feature, i) => (
-                                <Badge key={i} variant="secondary">
+                                <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1">
                                   {feature}
                                 </Badge>
                               ))}
@@ -547,7 +542,7 @@ const Reservation = () => {
                               className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
                                 table.cost > 0
                                   ? "bg-amber-100 text-amber-700"
-                                  : "bg-stone-100 text-stone-600"
+                                  : "bg-stone-100 text-green-600"
                               }`}
                             >
                               {table.cost > 0 ? `$${table.cost}` : "Free"}
@@ -588,7 +583,7 @@ const Reservation = () => {
                     </ItemDescription>
                     <ItemDescription>
                       {secondFormData.seating.features.map((feature, i) => (
-                        <Badge key={i} variant="secondary">
+                        <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1">
                           {feature}
                         </Badge>
                       ))}
@@ -599,7 +594,7 @@ const Reservation = () => {
                       className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${
                         secondFormData.seating.cost > 0
                           ? "bg-amber-100 text-amber-700"
-                          : "bg-stone-100 text-stone-600"
+                          : "bg-stone-100 text-green-600"
                       }`}
                     >
                       {secondFormData.seating.cost > 0
@@ -805,17 +800,17 @@ const Reservation = () => {
             // Success Message
             <div className="flex flex-col gap-4">
               <div className="text-center">
-                <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto shadow-inner">
                   <CheckCircle
                     className="text-green-600"
                     size={48}
                     strokeWidth={1.5}
                   />
                 </div>
-                <h2 className="text-4xl font-serif font-bold text-stone-900 mb-4">
+                <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">
                   Reservation Secured.
                 </h2>
-                <p className="text-stone-600 text-lg mb-10">
+                <p className="text-stone-600 text-lg">
                   We have sent a confirmation email to{" "}
                   <span className="text-stone-900 font-semibold">
                     {finalFormData.email}
@@ -825,7 +820,7 @@ const Reservation = () => {
               </div>
               {/* for additional details */}
 
-              <div className="bg-pink-100/30 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/15 rounded-lg overflow-hidden">
+              <div className="bg-pink-100/30 my-8 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/15 rounded-lg overflow-hidden">
                 {/* top section */}
                 <div className="bg-pink-100/10 backdrop-blur-lg px-6 py-4 border-b border-stone-300/20 flex justify-between items-center">
                   <span className="font-bold text-stone-700">
@@ -945,7 +940,7 @@ const Reservation = () => {
                 </div>
               </div>
 
-              <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className=" flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
                   size={"lg"}
                   onClick={() => window.location.reload()}

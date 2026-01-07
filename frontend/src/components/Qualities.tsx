@@ -4,24 +4,21 @@ const Qualities = () => {
   const Qualities: QualitiyType[] = [
     {
       id: 1,
-      image: "./quality_food.svg",
-      title: "QUALITY FOOD",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis repellendus officia qui repellat.",
+      image: "./online_booking.png",
+      title: "Easy online booking",
+      description: "Reserve your table in under a minute—no calls needed.",
     },
     {
       id: 2,
-      image: "./super_taste.svg",
-      title: "SUPER TASTE",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing sit amet elit. Sit voluptates quaerat pariatur.",
+      image: "./same_day.png",
+      title: "Same-day availability",
+      description: "Live table updates for brunch, dinner, and late nights.",
     },
     {
       id: 3,
-      image: "./fast_delivery.svg",
-      title: "FAST DELIVERY",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis repellendus officia qui repellat.",
+      image: "./private_event.png",
+      title: "Private events",
+      description: "Tailored menus for celebrations and team gatherings.",
     },
   ];
 

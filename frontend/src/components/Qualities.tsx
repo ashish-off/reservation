@@ -23,7 +23,7 @@ const Qualities = () => {
   ];
 
   return (
-    <section className="py-8" id="qualities">
+    <section className="pt-20" id="qualities">
       <div
         className="container mx-auto px-4 flex flex-col gap-4 sm:gap-8 items-center justify-center sm:flex-row"
       >

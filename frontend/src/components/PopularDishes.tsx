@@ -12,6 +12,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import Button from "./customUI/Button";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const PopularDishes = () => {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
@@ -65,15 +66,19 @@ const PopularDishes = () => {
       category: "Dinner",
     },
   ];
+  const navigate = useNavigate();
+  const handleMenu = () => {
+    navigate("/menu");
+  };
 
   return (
-    <section className="py-8">
+    <section className="pt-16">
       <div className="container mx-auto px-4 flex flex-col gap-4 md:gap-8 ">
         <div className="flex flex-row justify-between items-center">
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
             Popular Dishes
           </h1>
-          <Button className="flex shadow-none hover:text-gray-700">
+          <Button onClick={handleMenu} className="flex shadow-none hover:text-gray-700">
             Show More
             <MdKeyboardArrowRight className="relative bottom-px" size={30} />
           </Button>

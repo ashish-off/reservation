@@ -1,10 +1,10 @@
 import Button from "./customUI/Button";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { MapPin } from "lucide-react";
 
 const AboutUs = () => {
   return (
-    <section className="py-8" id="about">
+    <section className="pt-8" id="about">
       <div className="container mx-auto px-4  flex flex-col justify-center items-center md:flex-row">
         <div className="w-[360px] block md:hidden pb-12 pt-2 ">
           <img src="/about.png" alt="food image" />
@@ -27,18 +27,35 @@ const AboutUs = () => {
             effortless while we focus on delivering a refined dining experience.
           </article>
 
-          <div className="flex flex-row gap-3 w-fit mx-auto sm:mx-0">
-            <a href="https://maps.app.goo.gl/4Tm974QXnsE8SkNp8" target="_blank" rel="noopener noreferrer">
-            <Button className="text-xs sm:text-sm py-2 md:py-3 border border-gray-200 flex items-center gap-2">
-              <MapPin className="w-4 h-4 md:w-5 md:h-5" />
-              Pokhara Lakeside street-3
-            </Button>
-              </a>
-              <a href="/reservation">
-            <Button className="text-xs sm:text-sm py-2 md:py-3 border border-gray-200 flex items-center gap-2">
-                Make A Reservation <FaArrowRight />
-            </Button>
-              </a>
+          <div className="flex flex-row gap-3 w-fit mx-auto sm:mx-0 items-center">
+            <a
+              href="https://maps.app.goo.gl/4Tm974QXnsE8SkNp8"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="text-xs sm:text-sm py-2 md:py-3 border border-gray-200 flex items-center gap-2">
+                <MapPin className="w-4 h-4 md:w-5 md:h-5" />
+                Pokhara Lakeside street-3
+              </Button>
+            </a>
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 md:p-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"
+              aria-label="Facebook"
+            >
+              <FaFacebookF className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 md:p-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"
+              aria-label="Instagram"
+            >
+              <FaInstagram className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
+            </a>
           </div>
         </div>
 

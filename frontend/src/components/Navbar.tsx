@@ -3,6 +3,7 @@ import type { NavbarLinkType } from "../types";
 import { Link } from "react-scroll";
 import { Menu, X } from "lucide-react";
 import Button from "./customUI/Button";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -33,6 +34,10 @@ const Navbar = () => {
       link: "reservation",
     },
   ];
+  const navigate = useNavigate();
+  const handleMenu = () => {
+    navigate("/menu");
+  };
 
   return (
     <nav className="w-screen py-4 fixed top-0 left-0 right-0 z-50">
@@ -69,12 +74,13 @@ const Navbar = () => {
                 spy={true}
                 smooth={true}
                 duration={500}
+                onClick={() => setShow(!show)}
               >
                 {element.title}
               </Link>
             </li>
           ))}
-          <Button className="mx-4 text-base md:text-lg ">Our Menu</Button>
+          <Button onClick={handleMenu} className="mx-4 text-base md:text-lg " >Our Menu</Button>
         </ul>
       </div>
     </nav>

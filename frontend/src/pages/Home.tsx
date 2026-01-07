@@ -4,6 +4,7 @@ import Qualities from '../components/Qualities'
 import PopularDishes from '../components/PopularDishes'
 import Team from '@/components/Team'
 import Footer from '@/components/Footer'
+import ReservationDetails from '@/components/ReservationDetails'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
     <Qualities/>
     <PopularDishes/>
     <Team />
+    <ReservationDetails/>
     <Footer/>
     </>
   )

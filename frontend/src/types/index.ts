@@ -23,7 +23,7 @@ export interface DishType {
   id: number;
   image: string;
   title: string;
-  category: string;
+  category: string[];
 }
 
 export interface TeamType {

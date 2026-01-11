@@ -9,13 +9,13 @@ const ReservationDetails = () => {
   };
 
   return (
-    <section className="pt-20 pb-8" id="reservation">
+    <section className="pt-20 pb-8" >
       <div className="container mx-auto px-4">
         {/* review section */}
         <Reviews />
 
         {/* Reservation Section */}
-        <div className="mt-20 md:mt-24 lg:mt-28">
+        <div className="mt-20 md:mt-24 lg:mt-28" id="reservation">
           <div className="relative z-10 flex flex-col items-center text-center gap-6 md:gap-8">
             {/* Main Heading */}
             <div className="flex flex-col gap-3 md:gap-4">

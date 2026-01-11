@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { NavbarLinkType } from "../types";
 import { Link } from "react-scroll";
-import { Menu, X } from "lucide-react";
+import { Menu, Utensils, X } from "lucide-react";
 import Button from "./customUI/Button";
 import { useNavigate } from "react-router-dom";
 
@@ -40,15 +40,20 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-screen py-4 fixed top-0 left-0 right-0 z-50">
+    <nav className="w-screen py-3 fixed top-0 left-0 right-0 z-50">
       {/* Decorative background for blur*/}
       <div className="absolute inset-0 bg-white/10 backdrop-blur-md shadow-sm"></div>
 
-      <div className="max-w-6xl mx-auto md:flex md:items-center md:justify-between px-6 relative z-10">
+      <div className="container mx-auto md:flex md:items-center md:justify-between px-6 relative z-10">
         <div className="flex flex-row justify-between items-center">
-          <span className="text-2xl cursor-pointer font-sans font-bold">
-            LOGO
-          </span>
+          <div className="flex items-center gap-3 text-zinc-800">
+            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/5 shadow-lg">
+              <Utensils size={24} />
+            </div>
+            <span className="text-sm font-bold tracking-[0.25em] uppercase">
+              Everest Dining
+            </span>
+          </div>
           <span
             onClick={() => setShow(!show)}
             className="text-3xl cursor-pointer block md:hidden"
@@ -59,10 +64,11 @@ const Navbar = () => {
         <ul
           className={`z-20 md:z-auto md:flex md:items-center md:static absolute left-0 w-full md:w-auto py-8 md:py-0 pl-7 md:pl-0 md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-300 md:bg-transparent md:shadow-none md:backdrop-blur-none ${
             show
-              ? "top-[48px] opacity-100 bg-white/10 shadow-sm backdrop-blur-md"
+              ? "top-[57px] opacity-100 bg-white/10 shadow-sm backdrop-blur-md"
               : "top-[-400px] opacity-0"
           }`}
         >
+          
           {navbarLinks.map((element) => (
             <li
               className="md:text-lg mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 font-medium cursor-pointer"
@@ -79,8 +85,10 @@ const Navbar = () => {
                 {element.title}
               </Link>
             </li>
-          ))}
-          <Button onClick={handleMenu} className="mx-4 text-base md:text-lg " >Our Menu</Button>
+            ))}
+          <Button onClick={handleMenu} className="mx-4 text-base md:text-lg ">
+            Our Menu
+          </Button>
         </ul>
       </div>
     </nav>

@@ -11,7 +11,8 @@ import {
   ItemHeader,
   ItemTitle,
 } from "@/components/ui/item";
-import { Utensils } from "lucide-react";
+import { CalendarCheck, House, Utensils } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -122,28 +123,33 @@ const Menu = () => {
           <div className="container mx-auto flex items-center justify-between text-zinc-800 relative z-10 py-3 px-4 sm:px-6">
             {/* Logo */}
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="p-2 sm:p-2.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/5 shadow-lg">
+              <div className="p-2 sm:p-2.5 bg-white/10 rounded-xl border border-white/5 shadow-lg">
                 <Utensils size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-xs sm:text-sm font-bold tracking-[0.15em] sm:tracking-[0.25em] uppercase">
+              <span className="text-xs sm:text-sm font-bold tracking-widest sm:tracking-[0.5em] uppercase">
                 Everest Dining
               </span>
             </div>
 
             {/* Navigation Links */}
             <nav className="flex items-center gap-4 sm:gap-6 md:gap-8">
-              <button
+              <Button
                 onClick={() => navigate("/")}
-                className="text-sm sm:text-base md:text-lg font-medium hover:text-gray-500 duration-200 cursor-pointer"
+                variant="outline"
+                aria-label="Go Back"
+                className="w-12 sm:w-auto rounded-xl sm:rounded-full bg-white/30 border border-stone-400/30 shadow-md hover:bg-white/50 active:bg-white/80 duration-75 cursor-pointer"
               >
-                HOME
-              </button>
-              <button
+                <House /> <span className="hidden sm:inline">Home</span>
+              </Button>
+              <Button
                 onClick={() => navigate("/reservation")}
-                className="text-sm sm:text-base md:text-lg font-medium hover:text-gray-500 duration-200 cursor-pointer"
+                variant="outline"
+                aria-label="Go Back"
+                className="w-12 sm:w-auto rounded-xl sm:rounded-full bg-white/30 border border-stone-400/30 shadow-md hover:bg-white/50 active:bg-white/80 duration-75 cursor-pointer"
               >
-                RESERVATION
-              </button>
+                <CalendarCheck />
+                <span className="hidden sm:inline">Reservation</span>
+              </Button>
             </nav>
           </div>
         </div>

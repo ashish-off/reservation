@@ -16,6 +16,8 @@ import {
   Mail,
   Phone,
   MessageSquare,
+  House,
+  MapPin,
 } from "lucide-react";
 
 import {
@@ -62,6 +64,7 @@ import type { TableOption } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
 
 const firstFormSchema = z.object({
   date: z
@@ -111,6 +114,8 @@ const Reservation = () => {
   // Steps: 1=Date & Time, 2=Select seating, 3=Contact, 4=Success
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
+  const navigate = useNavigate();
+
   const timeSlots = [
     "10:00 AM",
     "10:30 AM",
@@ -146,7 +151,7 @@ const Reservation = () => {
       id: "premium-stage",
       name: "Premium Stage",
       description: "Center of the action with live piano view.",
-      features: ["High Visibility", "Near Stage", "a", "Ad", "d","e"],
+      features: ["High Visibility", "Near Stage"],
       image:
         "https://imgs.search.brave.com/OtlustJ2khsHnBDP0EEfmQcdiHRfDlcBDDAXw8xUAAM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9oaWdoLWJsdXJy/ZWQtaW50ZXJpb3It/bHV4dXJ5Xzg3NzIw/LTE1NTM5Ny5qcGc_/c2VtdD1haXNfaHli/cmlkJnc9NzQwJnE9/ODA",
       cost: 25,
@@ -247,25 +252,34 @@ const Reservation = () => {
 
   return (
     <div className="relative min-h-screen lg:h-screen  flex flex-col lg:flex-row font-sans text-stone-800 lg:overflow-hidden">
-        {/* Decorative Background */}
+      {/* Decorative Background */}
       <div className="absolute  bg-[url('/background.svg')] bg-cover bg-local bg-top-right inset-0 isolate -z-1"></div>
       <div className="absolute bg-[url('/center.svg')] bg-cover bg-local bg-center inset-0 z-0"></div>
       <div className="absolute bg-[url('/bottom.svg')] bg-cover  bg-local bg-bottom-left inset-0 z-0"></div>
 
       {/* LEFT PANEL */}
       <div className="lg:w-5/12  relative lg:h-full p-4 sm:p-8 lg:p-16  flex flex-col justify-between lg:items-center overflow-hidden min-h-fit shrink-0">
-
         {/* Brand Content */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 text-zinc-800 mb-3 sm:mb-8">
-            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/5 shadow-lg">
-              <Utensils size={24} />
+        <div className="relative z-10 ">
+          <div className="flex items-center justify-between mb-3 sm:mb-8">
+            <div className="flex items-center gap-3 text-zinc-800">
+              <div className="p-2 sm:p-2.5 bg-white/10 rounded-xl border border-white/5 shadow-lg">
+                <Utensils size={20} className="sm:w-6 sm:h-6" />
+              </div>
+              <span className="text-sm font-bold tracking-[0.25em] uppercase">
+                Everest Dining
+              </span>
             </div>
-            <span className="text-sm font-bold tracking-[0.25em] uppercase">
-              Everest Dining
-            </span>
-          </div>
 
+            <Button
+              onClick={() => navigate("/")}
+              variant="outline"
+              aria-label="Go Back"
+              className="rounded-full bg-white/30 border border-stone-400/30 shadow-md hover:bg-white/50 active:bg-white/80 duration-75 cursor-pointer"
+            >
+              <House /> Home
+            </Button>
+          </div>
           <h1 className="text-[25px] md:text-4xl lg:text-5xl font-semibold mb-1 sm:mb-6">
             {step === 4 ? "Table Secured." : "Experience the Extraordinary."}
           </h1>
@@ -353,7 +367,10 @@ const Reservation = () => {
                               </FieldLabel>
                             </div>
                             <Popover open={open} onOpenChange={setOpen}>
-                              <PopoverTrigger className="bg-transparent" asChild>
+                              <PopoverTrigger
+                                className="bg-transparent"
+                                asChild
+                              >
                                 <Button
                                   variant="outline"
                                   id="date"
@@ -504,7 +521,7 @@ const Reservation = () => {
                     variant="outline"
                     size="icon"
                     aria-label="Go Back"
-                    className="rounded-full bg-white/30 border border-stone-400/30 shadow-md"
+                    className="rounded-full bg-white/30 border border-stone-400/30 shadow-md cursor-pointer"
                   >
                     <ArrowLeftIcon />
                   </Button>
@@ -558,7 +575,11 @@ const Reservation = () => {
                             </ItemDescription>
                             <ItemDescription className="text-wrap">
                               {table.features.map((feature, i) => (
-                                <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1 text-[10px] font-semibold sm:text-xs mb-1">
+                                <Badge
+                                  key={i}
+                                  variant="secondary"
+                                  className="bg-white/30 border border-stone-400/30 shadow-sm mr-1 text-[10px] font-semibold sm:text-xs mb-1"
+                                >
                                   {feature}
                                 </Badge>
                               ))}
@@ -610,7 +631,11 @@ const Reservation = () => {
                     </ItemDescription>
                     <ItemDescription className="text-wrap">
                       {secondFormData.seating.features.map((feature, i) => (
-                        <Badge key={i} variant="secondary" className="bg-white/30 border border-stone-400/30 shadow-sm mr-1 text-[10px] font-semibold sm:text-xs mb-1">
+                        <Badge
+                          key={i}
+                          variant="secondary"
+                          className="bg-white/30 border border-stone-400/30 shadow-sm mr-1 text-[10px] font-semibold sm:text-xs mb-1"
+                        >
                           {feature}
                         </Badge>
                       ))}
@@ -781,7 +806,9 @@ const Reservation = () => {
                         variant={
                           selectedPayment === "later" ? "default" : "outline"
                         }
-                        className={`rounded-lg w-[49%] py-6 ${selectedPayment === "later" ? "" : "bg-white/50"}`}
+                        className={`rounded-lg w-[49%] py-6 ${
+                          selectedPayment === "later" ? "" : "bg-white/50"
+                        }`}
                         onClick={() => setValue("paymentMethod", "later")}
                       >
                         <Wallet size={18} /> Pay At Table
@@ -791,7 +818,9 @@ const Reservation = () => {
                         variant={
                           selectedPayment === "now" ? "default" : "outline"
                         }
-                        className={`rounded-lg w-[49%] py-6 ${selectedPayment === "now" ? "" : "bg-white/50"} `}
+                        className={`rounded-lg w-[49%] py-6 ${
+                          selectedPayment === "now" ? "" : "bg-white/50"
+                        } `}
                         onClick={() => setValue("paymentMethod", "now")}
                       >
                         <CreditCard size={18} /> Pay Now
@@ -885,14 +914,30 @@ const Reservation = () => {
                         </p>
                       </div>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-amber-800 hover:text-amber-700 hover:bg-amber-100/20"
-                      title="Add to Google Calendar"
-                    >
-                      <CalendarPlus className="size-6" />
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-amber-800 hover:text-amber-700 hover:bg-amber-100/20"
+                        title="Add to Google Calendar"
+                      >
+                        <CalendarPlus className="size-6" />
+                      </Button>
+                      <a
+                        href="https://maps.app.goo.gl/4Tm974QXnsE8SkNp8"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-amber-800 hover:text-amber-700 hover:bg-amber-100/20"
+                          title="View Location"
+                        >
+                          <MapPin className="size-6" />
+                        </Button>
+                      </a>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -928,15 +973,11 @@ const Reservation = () => {
                     <div className="grid grid-cols-2 gap-4 text-sm uppercase">
                       <div>
                         <p className="text-zinc-600 font-bold mb-1">Name</p>
-                        <p className="font-medium">
-                          {finalFormData.name}
-                        </p>
+                        <p className="font-medium">{finalFormData.name}</p>
                       </div>
                       <div>
                         <p className="text-zinc-600 font-bold mb-1">Contact</p>
-                        <p className="font-medium">
-                          {finalFormData.phone}
-                        </p>
+                        <p className="font-medium">{finalFormData.phone}</p>
                       </div>
                     </div>
                   </div>

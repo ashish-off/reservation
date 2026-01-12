@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { NavbarLinkType } from "../types";
 import { Link } from "react-scroll";
-import { Menu, Utensils, X } from "lucide-react";
+import { BookOpen, Menu, Utensils, X } from "lucide-react";
 import Button from "./customUI/Button";
 import { useNavigate } from "react-router-dom";
 
@@ -47,7 +47,7 @@ const Navbar = () => {
       <div className="container mx-auto md:flex md:items-center md:justify-between px-6 relative z-10">
         <div className="flex flex-row justify-between items-center">
           <div className="flex items-center gap-3 text-zinc-800">
-            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/5 shadow-lg">
+            <div className="p-2.5 bg-white/10 rounded-xl border border-white/5 shadow-lg">
               <Utensils size={24} />
             </div>
             <span className="text-sm font-bold tracking-[0.25em] uppercase">
@@ -71,7 +71,7 @@ const Navbar = () => {
           
           {navbarLinks.map((element) => (
             <li
-              className="md:text-lg mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 font-medium cursor-pointer"
+              className="mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 font-medium cursor-pointer"
               key={element.id}
             >
               <Link
@@ -86,8 +86,8 @@ const Navbar = () => {
               </Link>
             </li>
             ))}
-          <Button onClick={handleMenu} className="mx-4 text-base md:text-lg ">
-            Our Menu
+          <Button onClick={handleMenu} className="mx-4 flex items-center gap-2">
+            <BookOpen size={18} /> Our Menu
           </Button>
         </ul>
       </div>

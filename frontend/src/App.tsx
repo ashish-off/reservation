@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Reservation from "./pages/Reservation";
@@ -15,7 +14,6 @@ const App = () => {
           <Route path="/menu" element={<Menu/>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        {/* <Toaster /> */}
       </BrowserRouter>
     </div>
   );

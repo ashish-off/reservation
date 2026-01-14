@@ -1,4 +1,4 @@
-import Button from "./customUI/Button";
+import Button from "./customUI/CustomButton";
 import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { MapPin } from "lucide-react";
 

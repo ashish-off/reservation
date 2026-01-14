@@ -51,8 +51,8 @@ const Reservation = () => {
     <div className="relative min-h-screen lg:h-screen flex flex-col lg:flex-row font-sans text-stone-800 lg:overflow-hidden">
       {/* Decorative Background */}
       <div className="absolute bg-[url('/background.svg')] bg-cover bg-local bg-top-right inset-0 isolate -z-1"></div>
-      <div className="absolute bg-[url('/center.svg')] bg-cover bg-local bg-center inset-0 z-0"></div>
-      <div className="absolute bg-[url('/bottom.svg')] bg-cover bg-local bg-bottom-left inset-0 z-0"></div>
+      <div className="absolute bg-[url('/center.svg')] bg-cover bg-local  bg-center inset-0 z-0"></div>
+      {/* <div className="absolute bg-[url('/bottom.svg')] bg-cover bg-local bg-bottom-left inset-0 z-0"></div> */}
 
       {/* LEFT PANEL */}
       <ReservationLeftPanel step={step} />

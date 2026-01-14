@@ -2,23 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { DishType } from "../types";
 import Footer from "@/components/Footer";
-import { Badge } from "@/components/ui/badge";
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemHeader,
-  ItemTitle,
-} from "@/components/ui/item";
 import { CalendarCheck, House, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import DishItem from "@/components/DishItem";
+import { ItemGroup } from "@/components/ui/item";
 
 const Menu = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  // Extended dish list - you can expand this or fetch from API
+  // Extended dish list 
   const allDishes: DishType[] = [
     {
       id: 1,
@@ -122,13 +115,13 @@ const Menu = () => {
           <div className="absolute inset-0 bg-white/10 backdrop-blur-md shadow-sm"></div>
           <div className="container mx-auto flex items-center justify-between text-zinc-800 relative z-10 py-3 px-4 sm:px-6">
             {/* Logo */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="p-2 sm:p-2.5 bg-white/10 rounded-xl border border-white/5 shadow-lg">
-                <Utensils size={20} className="sm:w-6 sm:h-6" />
-              </div>
-              <span className="text-xs sm:text-sm font-bold tracking-widest sm:tracking-[0.5em] uppercase">
-                Everest Dining
-              </span>
+            <div className="flex items-center gap-3 text-amber-600">
+            <div className="p-2.5 bg-white/10 rounded-xl border border-white/5 shadow-lg">
+              <Utensils size={24} />
+            </div>
+            <span className="text-sm font-bold tracking-[0.25em] uppercase">
+              Everest Dining
+            </span>
             </div>
 
             {/* Navigation Links */}
@@ -186,35 +179,7 @@ const Menu = () => {
           <div>
             <ItemGroup className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-6 md:gap-8">
               {filteredDishes.map((dish) => (
-                <Item key={dish.id} variant="default">
-                  <ItemHeader>
-                    <img
-                      src={dish.image}
-                      alt={dish.title}
-                      width={128}
-                      height={128}
-                      className="aspect-3/4 w-sm rounded-sm object-cover"
-                    />
-                  </ItemHeader>
-                  <ItemContent>
-                    <ItemTitle className="text-xs md:text-sm">
-                      {dish.title}
-                    </ItemTitle>
-                    <ItemDescription>
-                      <div className="flex flex-row gap-2">
-                        {dish.category.map((c, i) => (
-                          <Badge
-                            key={i}
-                            variant={"secondary"}
-                            className="bg-stone-300/20 border-gray-400/20 capitalize text-[10px] md:text-xs shadow-sm mb-1"
-                          >
-                            {c}
-                          </Badge>
-                        ))}
-                      </div>
-                    </ItemDescription>
-                  </ItemContent>
-                </Item>
+                <DishItem dish = {dish} />
               ))}
             </ItemGroup>
           </div>

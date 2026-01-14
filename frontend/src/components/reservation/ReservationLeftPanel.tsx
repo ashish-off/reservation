@@ -14,7 +14,7 @@ const ReservationLeftPanel = ({ step }: ReservationLeftPanelProps) => {
       {/* Brand Content */}
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-3 sm:mb-8">
-          <div className="flex items-center gap-3 text-zinc-800">
+          <div className="flex items-center gap-3 text-amber-600">
             <div className="p-2 sm:p-2.5 bg-white/10 rounded-xl border border-white/5 shadow-lg">
               <Utensils size={20} className="sm:w-6 sm:h-6" />
             </div>
@@ -43,7 +43,7 @@ const ReservationLeftPanel = ({ step }: ReservationLeftPanelProps) => {
 
       {/* Hidden on mobile */}
       <div className="relative z-10 hidden lg:block my-0 lg:max-w-2xl">
-        <Quote className="text-amber-600 mb-6 opacity-60" size={40} />
+        <Quote className="text-amber-500 mb-6" size={40} />
         <p className="text-xl text-zinc-700 italic font-semibold mb-6 leading-relaxed">
           Enjoy an unforgettable meal. Whether you seek a cozy private nook or a
           vibrant window-side garden setting, Everest Dining promises the perfect

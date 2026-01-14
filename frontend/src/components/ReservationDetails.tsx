@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Button from "./customUI/Button";
+import Button from "./customUI/CustomButton";
 import Reviews from "./Reviews";
 
 const ReservationDetails = () => {
@@ -9,7 +9,7 @@ const ReservationDetails = () => {
   };
 
   return (
-    <section className="pt-20 pb-8" >
+    <section className="pt-20 pb-8">
       <div className="container mx-auto px-4">
         {/* review section */}
         <Reviews />

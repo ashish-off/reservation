@@ -7,10 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { ItemGroup } from "@/components/ui/item";
 import type { TableOption } from "@/types";
 import TableOptionCard from "./TableOptionCard";
+import { Button } from "../ui/button";
 
 interface Step2SelectSeatingProps {
   onSelect: (table: TableOption) => void;

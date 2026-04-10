@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { thirdFormSchema, type ThirdFormSchemaType } from "./schemas";
 import type { TableOption } from "@/types";
 import SelectedTablePreview from "./SelectedTablePreview";
+import { toast } from "sonner";
 
 interface Step3ContactDetailsProps {
   selectedTable: TableOption;
@@ -53,6 +54,14 @@ const Step3ContactDetails = ({
 
   const { setValue, watch } = form;
   const selectedPayment = watch("paymentMethod");
+
+  const onPayNow = () => {
+    toast.info("Pay Now feature is coming soon...");
+    setValue("paymentMethod", "now")
+    setTimeout(()=> {
+      setValue("paymentMethod", "later")
+    }, 250)
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -201,7 +210,7 @@ const Step3ContactDetails = ({
                 className={`rounded-lg w-[49%] py-6 ${
                   selectedPayment === "now" ? "" : "bg-white/50"
                 }`}
-                onClick={() => setValue("paymentMethod", "now")}
+                onClick={onPayNow}
               >
                 <CreditCard size={18} /> Pay Now
               </Button>

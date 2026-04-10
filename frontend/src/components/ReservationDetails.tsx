@@ -47,9 +47,9 @@ const ReservationDetails = () => {
                 <span className="text-gray-600">or</span>
                 <a
                   className="font-semibold text-gray-700 hover:text-amber-600 transition-colors duration-200 flex items-center gap-1"
-                  href="tel:+15551234567"
+                  href="tel:9779868845398"
                 >
-                  Call us: +1 (555) 123-4567
+                  Call us: +9779868845398
                 </a>
               </div>
             </div>

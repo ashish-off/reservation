@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import type { FirstFormSchemaType, ThirdFormSchemaType } from "./schemas";
 import type { TableOption } from "@/types";
+import { toast } from "sonner";
 
 interface Step4SuccessProps {
   finalData: FirstFormSchemaType & {
@@ -76,6 +77,7 @@ const Step4Success = ({ finalData }: Step4SuccessProps) => {
                 size="icon"
                 className="text-amber-800 hover:text-amber-700 hover:bg-amber-100/20"
                 title="Add to Google Calendar"
+                onClick={()=> toast.info("This feature is comming soon..")}
               >
                 <CalendarPlus className="size-6" />
               </Button>

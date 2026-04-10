@@ -39,7 +39,7 @@ const AboutUs = () => {
               </Button>
             </a>
             <a
-              href="https://www.facebook.com"
+              href="https://www.facebook.com/TheguyAshish"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 md:p-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"
@@ -48,7 +48,7 @@ const AboutUs = () => {
               <FaFacebookF className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
             </a>
             <a
-              href="https://www.instagram.com"
+              href="https://www.instagram.com/aasis_s_/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 md:p-3 border border-gray-200 rounded-2xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"

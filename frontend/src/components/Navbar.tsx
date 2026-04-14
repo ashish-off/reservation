@@ -40,7 +40,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-screen py-3 fixed top-0 left-0 right-0 z-50">
+    <nav className="w-screen py-3 md:py-5 fixed top-0 left-0 right-0 z-50">
       {/* Decorative background for blur*/}
       <div className="absolute inset-0 bg-white/10 backdrop-blur-md shadow-sm"></div>
 
@@ -70,7 +70,7 @@ const Navbar = () => {
         >
           {navbarLinks.map((element) => (
             <li
-              className="mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 font-medium cursor-pointer"
+              className="mx-4 my-3 md:my-0 hover:text-gray-500 duration-200 font-medium cursor-pointer text-nowrap text-sm lg:text-base "
               key={element.id}
             >
               <Link
@@ -85,7 +85,7 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
-          <Button onClick={handleMenu} className="mx-4 flex items-center gap-2">
+          <Button onClick={handleMenu} className="mx-4 flex items-center gap-2 text-nowrap text-sm lg:text-base">
             <BookOpen size={18} /> Our Menu
           </Button>
         </ul>

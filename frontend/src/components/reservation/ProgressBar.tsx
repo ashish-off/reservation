@@ -1,8 +1,8 @@
-interface ProgressBarProps {
-  step: 1 | 2 | 3 | 4;
-}
+import { useReservationStore } from "@/store";
 
-const ProgressBar = ({ step }: ProgressBarProps) => {
+const ProgressBar = () => {
+  const step = useReservationStore((s) => s.step);
+
   return (
     <div className="mb-6 sm:mb-12">
       <div className="flex items-center justify-between relative mb-2">
@@ -20,7 +20,7 @@ const ProgressBar = ({ step }: ProgressBarProps) => {
         ))}
       </div>
       <div className="flex justify-between text-xs font-bold text-stone-700 uppercase tracking-widest px-1">
-        <span>Date & Time</span>
+        <span>Date &amp; Time</span>
         <span>Seating Area</span>
         <span>Details</span>
       </div>

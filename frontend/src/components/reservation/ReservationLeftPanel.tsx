@@ -1,13 +1,11 @@
 import { Utensils, Quote, House } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useReservationStore } from "@/store";
 
-interface ReservationLeftPanelProps {
-  step: 1 | 2 | 3 | 4;
-}
-
-const ReservationLeftPanel = ({ step }: ReservationLeftPanelProps) => {
+const ReservationLeftPanel = () => {
   const navigate = useNavigate();
+  const step = useReservationStore((s) => s.step);
 
   return (
     <div className="lg:w-5/12 relative lg:h-full p-4 sm:p-8 lg:p-16 flex flex-col justify-between lg:items-center overflow-hidden min-h-fit shrink-0">

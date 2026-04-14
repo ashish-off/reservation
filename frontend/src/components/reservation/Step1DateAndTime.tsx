@@ -36,13 +36,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { firstFormSchema, type FirstFormSchemaType } from "./schemas";
+import { useReservationStore } from "@/store";
 
-interface Step1DateAndTimeProps {
-  onSubmit: (data: FirstFormSchemaType) => void;
-}
-
-const Step1DateAndTime = ({ onSubmit }: Step1DateAndTimeProps) => {
+const Step1DateAndTime = () => {
   const [open, setOpen] = useState(false);
+  const submitStep1 = useReservationStore((s) => s.submitStep1);
 
   const timeSlots = [
     "10:00 AM",
@@ -83,6 +81,9 @@ const Step1DateAndTime = ({ onSubmit }: Step1DateAndTimeProps) => {
     },
   });
 
+  console.log("step one refresh");
+  
+
   return (
     <Card className="bg-pink-100/30 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/35">
       <CardHeader>
@@ -93,7 +94,7 @@ const Step1DateAndTime = ({ onSubmit }: Step1DateAndTimeProps) => {
       </CardHeader>
 
       <CardContent>
-        <form id="first-form" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="first-form" onSubmit={form.handleSubmit(submitStep1)}>
           <FieldGroup>
             <Controller
               name="date"

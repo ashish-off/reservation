@@ -7,17 +7,16 @@ import {
   Utensils,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { FirstFormSchemaType, ThirdFormSchemaType } from "./schemas";
-import type { TableOption } from "@/types";
 import { toast } from "sonner";
+import { useReservationStore } from "@/store";
 
-interface Step4SuccessProps {
-  finalData: FirstFormSchemaType & {
-    seating: TableOption;
-  } & ThirdFormSchemaType;
-}
+const Step4Success = () => {
+ const {getPayload} =  useReservationStore()
+  const finalData = getPayload();
+  console.log("success step :", finalData);
 
-const Step4Success = ({ finalData }: Step4SuccessProps) => {
+  if (!finalData) return <div>Error: No reservation data found.</div>;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="text-center">
@@ -64,7 +63,7 @@ const Step4Success = ({ finalData }: Step4SuccessProps) => {
               </div>
               <div>
                 <p className="text-xs text-zinc-600 font-bold uppercase">
-                  Date & Time
+                  Date &amp; Time
                 </p>
                 <p className="font-bold">
                   {finalData.date?.toLocaleDateString()} at {finalData.time}
@@ -77,7 +76,7 @@ const Step4Success = ({ finalData }: Step4SuccessProps) => {
                 size="icon"
                 className="text-amber-800 hover:text-amber-700 hover:bg-amber-100/20"
                 title="Add to Google Calendar"
-                onClick={()=> toast.info("This feature is comming soon..")}
+                onClick={() => toast.info("This feature is coming soon..")}
               >
                 <CalendarPlus className="size-6" />
               </Button>

@@ -26,21 +26,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { thirdFormSchema, type ThirdFormSchemaType } from "./schemas";
-import type { TableOption } from "@/types";
 import SelectedTablePreview from "./SelectedTablePreview";
 import { toast } from "sonner";
+import { useReservationStore } from "@/store";
 
-interface Step3ContactDetailsProps {
-  selectedTable: TableOption;
-  onSubmit: (data: ThirdFormSchemaType) => void;
-  onBack: () => void;
-}
+const Step3ContactDetails = () => {
+  const {submitStep3, goBack, seatingData} = useReservationStore();
+  const selectedTable = seatingData?.seating;
 
-const Step3ContactDetails = ({
-  selectedTable,
-  onSubmit,
-  onBack,
-}: Step3ContactDetailsProps) => {
+  console.log("step 3 render");
+  
+
   const form = useForm<ThirdFormSchemaType>({
     resolver: zodResolver(thirdFormSchema),
     defaultValues: {
@@ -57,11 +53,19 @@ const Step3ContactDetails = ({
 
   const onPayNow = () => {
     toast.info("Pay Now feature is coming soon...");
-    setValue("paymentMethod", "now")
-    setTimeout(()=> {
-      setValue("paymentMethod", "later")
-    }, 250)
+    setValue("paymentMethod", "now");
+    setTimeout(() => {
+      setValue("paymentMethod", "later");
+    }, 250);
   };
+
+  const handleSubmit = (data: ThirdFormSchemaType) => {
+    const payload = submitStep3(data);
+    if (payload) {
+      console.log("Final Reservation Payload:", payload);
+    }
+  };
+  if (!selectedTable) return null;
 
   return (
     <div className="flex flex-col gap-4">
@@ -75,7 +79,7 @@ const Step3ContactDetails = ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form id="third-form" onSubmit={form.handleSubmit(onSubmit)}>
+          <form id="third-form" onSubmit={form.handleSubmit(handleSubmit)}>
             <FieldGroup>
               <Controller
                 name="name"
@@ -221,7 +225,7 @@ const Step3ContactDetails = ({
               size="lg"
               variant="outline"
               className="rounded-lg w-[18%] py-6 bg-white/50"
-              onClick={onBack}
+              onClick={goBack}
             >
               Back
             </Button>

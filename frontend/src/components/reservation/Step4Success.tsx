@@ -13,7 +13,6 @@ import { useReservationStore } from "@/store";
 const Step4Success = () => {
  const {getPayload} =  useReservationStore()
   const finalData = getPayload();
-  console.log("success step :", finalData);
 
   if (!finalData) return <div>Error: No reservation data found.</div>;
 

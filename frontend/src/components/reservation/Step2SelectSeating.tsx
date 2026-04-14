@@ -72,8 +72,6 @@ const tableOptions: TableOption[] = [
 
 const Step2SelectSeating = () => {
   const {submitStep2, goBack} = useReservationStore()
-  console.log("step 2 render");
-  
 
   return (
     <Card className="bg-pink-100/30 backdrop-blur-lg border-zinc-300/10 shadow-2xl ring-4 ring-white/35">

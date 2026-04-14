@@ -34,9 +34,6 @@ const Step3ContactDetails = () => {
   const {submitStep3, goBack, seatingData} = useReservationStore();
   const selectedTable = seatingData?.seating;
 
-  console.log("step 3 render");
-  
-
   const form = useForm<ThirdFormSchemaType>({
     resolver: zodResolver(thirdFormSchema),
     defaultValues: {

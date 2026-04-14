@@ -73,7 +73,7 @@ export const useReservationStore = create<ReservationStore>()(
         if (!dateTimeData || !seatingData || !contactData) return null;
         return { ...dateTimeData, ...seatingData, ...contactData };
       },
-      reset: () => set({ ...initialState }, true),
+      reset: () => set( (state) => ({ ...state, ...initialState })),
     })),
     { name: 'ReservationStore' }
   )

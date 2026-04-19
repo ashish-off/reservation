@@ -87,7 +87,7 @@ const Step2SelectSeating = () => {
             <ArrowLeftIcon />
           </Button>
         </CardAction>
-        <CardTitle className="text-stone-800">3 Tables Found</CardTitle>
+        <CardTitle className="text-stone-800">{tableOptions.length} Tables Found</CardTitle>
         <CardDescription className="text-stone-500">
           Select a seating area for your reservation
         </CardDescription>

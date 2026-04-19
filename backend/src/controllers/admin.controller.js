@@ -44,3 +44,20 @@ export const login = async (req, res, next) => {
     }
 };
 
+// GET /api/v1/admin/me  (protected)
+export const getMe = async (req, res, next) => {
+    try {
+        const admin = await Admin.findById(req.admin.id).select("-password");
+
+        if (!admin) {
+            return next(new ErrorHandler("Admin not found.", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            admin,
+        });
+    } catch (error) {
+        return next(new ErrorHandler("Failed to fetch admin info.", 500));
+    }
+};

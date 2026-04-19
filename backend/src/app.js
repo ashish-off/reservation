@@ -1,21 +1,27 @@
 import express from "express";
-import dotenv from 'dotenv'
-import cors from 'cors'
+import dotenv from 'dotenv';
+import cors from 'cors';
 import connectDB from "./config/db.js";
 import { errorMiddleware } from "./error/error.js";
-import router from "./routes/reservations.route.js";
+import reservationRouter from "./routes/reservations.route.js";
+import adminRouter from "./routes/admin.route.js";
 
 dotenv.config();
 const app = express();
+
 app.use(cors({
     origin: [process.env.FRONTEND_URL],
-    credentials: true, //to send cookies, authorization headers
-    methods: ['POST'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/v1/reservations', router)
+
+// Routes
+app.use('/api/v1/reservations', reservationRouter);
+app.use('/api/v1/admin', adminRouter);
+
 connectDB();
 
 app.use(errorMiddleware);

@@ -3,6 +3,16 @@ import jwt from "jsonwebtoken";
 import Admin from "../models/admin.model.js";
 import { ErrorHandler } from "../error/error.js";
 
+const COOKIE_NAME = "admin_token";
+const isProduction = process.env.NODE_ENV === "production";
+const cookieOptions = {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
 // POST /api/v1/admin/login
 export const login = async (req, res, next) => {
     const { email, password } = req.body;
@@ -30,10 +40,11 @@ export const login = async (req, res, next) => {
             { expiresIn: "7d" }
         );
 
+        res.cookie(COOKIE_NAME, token, cookieOptions);
+
         res.status(200).json({
             success: true,
             message: "Login successful.",
-            token,
             admin: {
                 id: admin._id,
                 email: admin.email,
@@ -60,4 +71,19 @@ export const getMe = async (req, res, next) => {
     } catch (error) {
         return next(new ErrorHandler("Failed to fetch admin info.", 500));
     }
+};
+
+// POST /api/v1/admin/logout
+export const logout = (req, res) => {
+    res.clearCookie(COOKIE_NAME, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        path: "/",
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully.",
+    });
 };

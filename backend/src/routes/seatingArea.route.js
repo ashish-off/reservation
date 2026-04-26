@@ -11,5 +11,7 @@ const router = express.Router();
 
 router.get("/", getAllSeatingAreas);
 router.post("/", authMiddleware, createSeatingArea);
+router.put("/:id", authMiddleware, updateSeatingArea);
+router.delete("/:id", authMiddleware, deleteSeatingArea);
 
 export default router;

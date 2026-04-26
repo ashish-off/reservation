@@ -7,6 +7,7 @@ import { errorMiddleware } from "./error/error.js";
 import reservationRouter from "./routes/reservations.route.js";
 import adminRouter from "./routes/admin.route.js";
 import menuRouter from "./routes/menu.route.js";
+import seatingAreaRouter from "./routes/seatingArea.route.js";
 
 dotenv.config();
 const app = express();
@@ -27,6 +28,9 @@ app.use(cookieParser());
 // Routes
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/menu', menuRouter);
+app.use('/api/v1/reservations', reservationRouter);
+app.use('/api/v1/seating-areas', seatingAreaRouter);
+
 connectDB();
 
 app.use(errorMiddleware);

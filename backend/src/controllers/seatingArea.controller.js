@@ -44,3 +44,48 @@ export const createSeatingArea = async (req, res, next) => {
         return next(new ErrorHandler("Failed to create seating area.", 500));
     }
 };
+
+// PUT /api/v1/seating-areas/:id  — admin only
+export const updateSeatingArea = async (req, res, next) => {
+    try {
+        const area = await SeatingArea.findByIdAndUpdate(
+            req.params.id,
+            { $set: req.body },
+            { new: true, runValidators: true }
+        );
+
+        if (!area) {
+            return next(new ErrorHandler("Seating area not found.", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Seating area updated.",
+            area,
+        });
+    } catch (error) {
+        if (error.name === "ValidationError") {
+            const messages = Object.values(error.errors).map((e) => e.message);
+            return next(new ErrorHandler(messages.join(", "), 400));
+        }
+        return next(new ErrorHandler("Failed to update seating area.", 500));
+    }
+};
+
+// DELETE /api/v1/seating-areas/:id  — admin only
+export const deleteSeatingArea = async (req, res, next) => {
+    try {
+        const area = await SeatingArea.findByIdAndDelete(req.params.id);
+
+        if (!area) {
+            return next(new ErrorHandler("Seating area not found.", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Seating area deleted.",
+        });
+    } catch (error) {
+        return next(new ErrorHandler("Failed to delete seating area.", 500));
+    }
+};

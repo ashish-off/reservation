@@ -42,3 +42,47 @@ export const createMenuItem = async (req, res, next) => {
     }
 };
 
+// PUT /api/v1/menu/:id  — admin only
+export const updateMenuItem = async (req, res, next) => {
+    try {
+        const item = await MenuItem.findByIdAndUpdate(
+            req.params.id,
+            { $set: req.body },
+            { new: true, runValidators: true }
+        );
+
+        if (!item) {
+            return next(new ErrorHandler("Menu item not found.", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Menu item updated.",
+            item,
+        });
+    } catch (error) {
+        if (error.name === "ValidationError") {
+            const messages = Object.values(error.errors).map((e) => e.message);
+            return next(new ErrorHandler(messages.join(", "), 400));
+        }
+        return next(new ErrorHandler("Failed to update menu item.", 500));
+    }
+};
+
+// DELETE /api/v1/menu/:id  — admin only
+export const deleteMenuItem = async (req, res, next) => {
+    try {
+        const item = await MenuItem.findByIdAndDelete(req.params.id);
+
+        if (!item) {
+            return next(new ErrorHandler("Menu item not found.", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Menu item deleted.",
+        });
+    } catch (error) {
+        return next(new ErrorHandler("Failed to delete menu item.", 500));
+    }
+};

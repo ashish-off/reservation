@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import { errorMiddleware } from "./error/error.js";
 import reservationRouter from "./routes/reservations.route.js";
 import adminRouter from "./routes/admin.route.js";
+import menuRouter from "./routes/menu.route.js";
 
 dotenv.config();
 const app = express();
@@ -18,13 +19,14 @@ app.use(
     }),
 );
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
 app.use('/api/v1/admin', adminRouter);
-
+app.use('/api/v1/menu', menuRouter);
 connectDB();
 
 app.use(errorMiddleware);

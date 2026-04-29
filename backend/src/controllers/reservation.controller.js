@@ -1,33 +1,33 @@
-import { ErrorHandler } from "../error/error.js";
 import Reservation from "../models/reservation.models.js";
+import SeatingArea from "../models/seatingArea.model.js";
+import { ErrorHandler } from "../error/error.js";
 
-export const sendReservation = async (req, res, next) => {
-    const { name, email, phone, time, date } = req.body;
 
-    if (!name || !email || !phone || !time || !date) {
-        return next(new ErrorHandler("All fields are required", 400));
-    }
-
+// GET /api/v1/reservations  — admin only
+export const getAllReservations = async (req, res, next) => {
     try {
-        const reservation = await Reservation.create({
-            name,
-            email,
-            phone,
-            time,
-            date
-        });
+        const { date } = req.query;
+        const filter = {};
+
+        if (date) {
+            const startOfDay = new Date(date);
+            startOfDay.setHours(0, 0, 0, 0);
+            const endOfDay = new Date(date);
+            endOfDay.setHours(23, 59, 59, 999);
+            filter.date = { $gte: startOfDay, $lte: endOfDay };
+        }
+
+        const reservations = await Reservation.find(filter)
+            .populate("seatingAreaId", "name capacity")
+            .sort({ date: -1, createdAt: -1 });
 
         res.status(200).json({
             success: true,
-            message: "Reservation created successfully",
-            reservation
+            reservations,
+            count: reservations.length,
         });
-
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            const messages = Object.values(error.errors).map(val => val.message); // returns array of error messages came from mongoose validation
-            return next(new ErrorHandler(messages.join(', '), 400));
-        }
-        return next(new ErrorHandler("Failed to create reservation", 500));
+        return next(new ErrorHandler("Failed to fetch reservations.", 500));
     }
-}
+};
+

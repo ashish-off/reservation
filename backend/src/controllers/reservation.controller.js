@@ -108,4 +108,19 @@ export const updateReservationStatus = async (req, res, next) => {
 };
 
 // DELETE /api/v1/reservations/:id  — admin only
-export const deleteReservation = async (req, res, next) => {};
+export const deleteReservation = async (req, res, next) => {
+    try {
+        const reservation = await Reservation.findByIdAndDelete(req.params.id);
+
+        if (!reservation) {
+            return next(new ErrorHandler("Reservation not found.", 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Reservation deleted.",
+        });
+    } catch (error) {
+        return next(new ErrorHandler("Failed to delete reservation.", 500));
+    }
+};
